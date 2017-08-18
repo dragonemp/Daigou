@@ -1,0 +1,9 @@
+E:\Development\Git\Daigou\PurchaseHelper\bin\Debug\netcoreapp2.0\PurchaseHelper.deps.json
+E:\Development\Git\Daigou\PurchaseHelper\bin\Debug\netcoreapp2.0\PurchaseHelper.dll
+E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp2.0\PurchaseHelper.csprojResolveAssemblyReference.cache
+E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp2.0\PurchaseHelper.csproj.CoreCompileInputs.cache
+E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp2.0\PurchaseHelper.AssemblyInfoInputs.cache
+E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp2.0\PurchaseHelper.AssemblyInfo.cs
+E:\Development\Git\Daigou\PurchaseHelper\bin\Debug\netcoreapp2.0\PurchaseHelper.pdb
+E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp2.0\PurchaseHelper.dll
+E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp2.0\PurchaseHelper.pdb

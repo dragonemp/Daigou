@@ -1,0 +1,16 @@
+E:\Development\Git\Daigou\PurchaseHelperTests\obj\Debug\netcoreapp2.0\PurchaseHelperTests.csprojResolveAssemblyReference.cache
+E:\Development\Git\Daigou\PurchaseHelperTests\obj\Debug\netcoreapp2.0\PurchaseHelperTests.csproj.CoreCompileInputs.cache
+E:\Development\Git\Daigou\PurchaseHelperTests\obj\Debug\netcoreapp2.0\PurchaseHelperTests.AssemblyInfoInputs.cache
+E:\Development\Git\Daigou\PurchaseHelperTests\obj\Debug\netcoreapp2.0\PurchaseHelperTests.AssemblyInfo.cs
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\xunit.runner.utility.netstandard15.dll
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netstandard15.dll
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\PurchaseHelperTests.deps.json
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\PurchaseHelperTests.runtimeconfig.json
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\PurchaseHelperTests.runtimeconfig.dev.json
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\PurchaseHelperTests.dll
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\PurchaseHelperTests.pdb
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\PurchaseHelper.dll
+E:\Development\Git\Daigou\PurchaseHelperTests\bin\Debug\netcoreapp2.0\PurchaseHelper.pdb
+E:\Development\Git\Daigou\PurchaseHelperTests\obj\Debug\netcoreapp2.0\PurchaseHelperTests.dll
+E:\Development\Git\Daigou\PurchaseHelperTests\obj\Debug\netcoreapp2.0\PurchaseHelperTests.pdb
