@@ -1,5 +1,0 @@
-E:\Development\Git\Daigou\PurchaseHelper\bin\Debug\netcoreapp1.1\PurchaseHelper.deps.json
-E:\Development\Git\Daigou\PurchaseHelper\bin\Debug\netcoreapp1.1\PurchaseHelper.dll
-E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp1.1\PurchaseHelper.csprojResolveAssemblyReference.cache
-E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp1.1\PurchaseHelper.csproj.CoreCompileInputs.cache
-E:\Development\Git\Daigou\PurchaseHelper\obj\Debug\netcoreapp1.1\PurchaseHelper.AssemblyInfo.cs

@@ -1659,19 +1659,6 @@
         "build": {
           "build/netcoreapp1.0/xunit.runner.visualstudio.props": {}
         }
-      },
-      "PurchaseHelper/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "System.Xml.XDocument": "4.3.0"
-        },
-        "compile": {
-          "bin/placeholder/PurchaseHelper.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/PurchaseHelper.dll": {}
-        }
       }
     }
   },
@@ -5617,18 +5604,12 @@
         "xunit.runner.visualstudio.2.2.0.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
-    },
-    "PurchaseHelper/1.0.0": {
-      "type": "project",
-      "path": "../PurchaseHelper/PurchaseHelper.csproj",
-      "msbuildProject": "../PurchaseHelper/PurchaseHelper.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.NET.Test.Sdk >= 15.3.0-preview-20170628-02",
       "Microsoft.NETCore.App >= 2.0.0",
-      "PurchaseHelper >= 1.0.0",
       "xunit >= 2.2.0",
       "xunit.runner.visualstudio >= 2.2.0"
     ]
@@ -5665,11 +5646,7 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {
-            "E:\\Development\\Git\\Daigou\\PurchaseHelper\\PurchaseHelper.csproj": {
-              "projectPath": "E:\\Development\\Git\\Daigou\\PurchaseHelper\\PurchaseHelper.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
@@ -5687,7 +5664,7 @@
           },
           "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "2.0.0",
+            "version": "2.0",
             "autoReferenced": true
           },
           "xunit": {
