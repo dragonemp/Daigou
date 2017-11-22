@@ -11,6 +11,8 @@ namespace PurchaseHelper.BusinessObjects
         public string TableName = "";
         public string _connString = "";
         public string PrimaryKey = "";
+        protected T _myValues;
+        protected List<T> _myList;
         public List<string> ValidationErrors = new List<string>();
         public virtual int Save(T Contract)
         {
@@ -89,32 +91,79 @@ namespace PurchaseHelper.BusinessObjects
             return pkVal;
         }
 
-        public virtual bool Delete(T Contract)
+        public virtual bool Delete(int id)
         {
             bool deleted = false;
-            ContractWrapper<T> cw = new ContractWrapper<T>(Contract);
-            if (cw.GetFieldValue(PrimaryKey) != null && (int)cw.GetFieldValue(PrimaryKey) > 0)
+
+            string sql = string.Format("DELETE FROM {0} WHERE {1}={2}", TableName, PrimaryKey, id.ToString());
+            using (SqlConnection conn = new SqlConnection(_connString))
             {
-                int pkVal = (int)cw.GetFieldValue(PrimaryKey);
-                string sql = string.Format("DELETE FROM {0} WHERE {1}={2}", TableName, PrimaryKey, pkVal.ToString());
-                using (SqlConnection conn = new SqlConnection(_connString))
+                using (SqlCommand comm = new SqlCommand())
                 {
-                    using (SqlCommand comm = new SqlCommand())
+                    comm.Connection = conn;
+                    comm.CommandText = sql;
+                    try
                     {
-                        comm.Connection = conn;
-                        comm.CommandText = sql;
-                        try
-                        {
-                            conn.Open();
-                        }
-                        catch (Exception e)
-                        {
-                            ValidationErrors.Add(e.Message);
-                        }
+                        conn.Open();
+                        comm.ExecuteScalar();
+                    }
+                    catch (Exception e)
+                    {
+                        ValidationErrors.Add(e.Message);
                     }
                 }
             }
+
             return deleted;
+        }
+
+        public virtual T GetByID(int id)
+        {
+            DataReaderMapper _mapper = new DataReaderMapper();
+            ContractWrapper<T> _contractWrapper = new ContractWrapper<T>();
+            using (SqlConnection myConnection = new SqlConnection(_connString))
+            {
+                string sql = string.Format("Select * from {0} where {1}=@id",TableName, PrimaryKey);
+                SqlCommand oCmd = new SqlCommand(sql, myConnection);
+                oCmd.Parameters.AddWithValue("@id", id);           
+                myConnection.Open();
+                using (SqlDataReader oReader = oCmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {    
+                        _myValues = _mapper.MapDataToFields<T>( oReader, _contractWrapper );
+                    }
+                }
+            }
+
+            return _myValues;
+        }
+
+        public virtual List<T> GetList(string filter)
+        {
+            DataReaderMapper _mapper = new DataReaderMapper();
+            ContractWrapper<T> _contractWrapper = new ContractWrapper<T>();
+            _myList = new List<T>();
+            using (SqlConnection myConnection = new SqlConnection(_connString))
+            {
+                string sql;
+                if (string.IsNullOrEmpty(filter))
+                    sql = string.Format("Select * from {0}", TableName);
+                else
+                    sql = string.Format("Select * from {0} Where {1}", TableName, filter);
+                SqlCommand oCmd = new SqlCommand(sql, myConnection);          
+                myConnection.Open();
+                using (SqlDataReader oReader = oCmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {    
+                        _myValues = _mapper.MapDataToFields<T>( oReader, _contractWrapper );
+                        _myList.Add(_myValues);
+                    }
+                }
+            }
+
+            return _myList;
         }
 
         protected virtual bool Validate(T Contract)

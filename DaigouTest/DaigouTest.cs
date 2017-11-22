@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PurchaseHelper.BusinessObjects;
@@ -50,7 +51,7 @@ namespace DaigouTest
             string base64String = System.Convert.ToBase64String(bytes);
             contract.Picture = base64String;
             contract.Store = "d";
-            contract.USDPrice = (Decimal)1.345;
+            contract.USDPrice = 1.345;
             contract.weight = 1.25;
 
             bo.Save(contract);
@@ -68,9 +69,30 @@ namespace DaigouTest
             OrderItemModel item = new OrderItemModel();
             item.MerchandiseID = 1;
             item.Number = 3;
-            item.DiscountPercent = (decimal)1.5;
+            item.DiscountPercent = 1.5;
             contract.OrderItems.Add(item);
             bo.Save(contract);
+        }
+
+        [TestMethod]
+        public void TestOrderBODelete()
+        {
+            OrderBO bo = new OrderBO(_conn);
+            bo.Delete(6);
+        }
+
+        [TestMethod]
+        public void TestOrderBOGetById()
+        {
+            OrderBO bo = new OrderBO(_conn);
+            OrderModel order = bo.GetByID(7);
+        }
+
+        [TestMethod]
+        public void TestOrderBOGetList()
+        {
+            OrderBO bo = new OrderBO(_conn);
+            List<OrderModel> order = bo.GetList("");
         }
     }
 }

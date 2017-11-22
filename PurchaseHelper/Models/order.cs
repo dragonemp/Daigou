@@ -34,8 +34,8 @@ namespace PurchaseHelper.Models
         [DataMapper("Number")]
         public int Number { get; set; }
         [DataMapper("DiscountPercent")]
-        public decimal? DiscountPercent { get; set; }
+        public double? DiscountPercent { get; set; }
         [DataMapper("DiscountValue")]
-        public decimal? DiscountValue { get; set; }
+        public double? DiscountValue { get; set; }
     }
 }

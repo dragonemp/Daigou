@@ -15,7 +15,7 @@ namespace PurchaseHelper.Models
         [DataMapper("Picture")]
         public string Picture { get; set; }
         [DataMapper("USDPrice")]
-        public decimal USDPrice { get; set; }
+        public double USDPrice { get; set; }
         [DataMapper("weight")]
         public double weight { get; set; }        
     }
