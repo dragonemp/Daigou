@@ -4,6 +4,14 @@ using PurchaseHelper.BusinessObjects;
 
 namespace PurchaseHelper.Models
 {
+    public enum OrderStatus
+    {
+        Pending = 1,
+        Shipped = 2,
+        Delivered = 3,
+        Returned = 4,
+        Cancelled = 5
+    }
     public class OrderModel
     {
         [DataMapper("OrderID")]
@@ -19,6 +27,8 @@ namespace PurchaseHelper.Models
         public string ShipmentNumber { get; set; }
         [DataMapper("ShipmentCarrier")]
         public string ShipmentCarrier { get; set; }
+        [DataMapper("OrderStatus")]
+        public int OrderStatus { get; set; }
         public List<OrderItemModel> OrderItems { get; set; }
     }
 
