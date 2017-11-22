@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaigouTest", "DaigouTest\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseHelper", "PurchaseHelper\PurchaseHelper.csproj", "{2B8FA9A3-19BD-42C7-A8E4-FAD01AC84025}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database Scripts", "Database Scripts", "{B494351E-8BCF-4BCF-ADDE-53EF64F21138}"
+	ProjectSection(SolutionItems) = preProject
+		dbtables.sql = dbtables.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
