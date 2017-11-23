@@ -41,6 +41,7 @@ namespace PurchaseHelper.BusinessObjects
             }
             OrderItemBO orderitem = new OrderItemBO(_connString);
             order.OrderItems = orderitem.GetList("OrderID=" + order.OrderID.ToString());
+            order.Profit = CalculateProfit(order);
             return order;
         }
 
@@ -56,8 +57,37 @@ namespace PurchaseHelper.BusinessObjects
                     order.Customer = customer.GetByID(order.CustomerID);
                 }
                 order.OrderItems = orderitem.GetList("OrderID=" + order.OrderID.ToString());
+                order.Profit = CalculateProfit(order);
             }
             return orders;
+        }
+
+        public double CalculateProfit(OrderModel order)
+        {
+            double profit = 0;
+            double cost = 0;
+            CurrencyHelper obj = new CurrencyHelper();
+            decimal exchangeRate = obj.GetExchangeRates("CNY");
+            foreach(OrderItemModel orderItem in order.OrderItems)
+            {
+                if (orderItem.DiscountValue.HasValue)
+                {
+                    cost += (orderItem.Merchandise.USDPrice - orderItem.DiscountValue.Value) * (double)exchangeRate;
+                }
+                else if(orderItem.DiscountPercent.HasValue)
+                {
+                    cost += orderItem.Merchandise.USDPrice * (100 - orderItem.DiscountPercent.Value) / 100 * (double)exchangeRate;
+                }
+                else
+                {
+                    cost += orderItem.Merchandise.USDPrice * (double)exchangeRate;
+                }
+            }
+            if (order.ShippingCost.HasValue)
+                cost += order.ShippingCost.Value;
+            if (order.ChargedPrice.HasValue)
+                profit = order.ChargedPrice.Value - cost;
+            return profit;
         }
     }
 

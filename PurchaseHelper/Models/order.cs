@@ -29,6 +29,11 @@ namespace PurchaseHelper.Models
         public string ShipmentCarrier { get; set; }
         [DataMapper("OrderStatus")]
         public int OrderStatus { get; set; }
+        [DataMapper("ShippingCost")]
+        public double? ShippingCost { get; set; }
+        [DataMapper("ChargedPrice")]
+        public double? ChargedPrice { get; set; }
+        public double? Profit { get; set; }
         public List<OrderItemModel> OrderItems { get; set; }
     }
 

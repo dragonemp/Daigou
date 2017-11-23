@@ -65,6 +65,8 @@ namespace DaigouTest
             contract.OrderID = -1;
             contract.CustomerID = 5;
             contract.OrderDate = DateTime.Parse("1/5/2015");
+            contract.ShippingCost = 12.45;
+            contract.ChargedPrice = 52.12;
             contract.OrderItems = new System.Collections.Generic.List<OrderItemModel>();
             OrderItemModel item = new OrderItemModel();
             item.MerchandiseID = 1;
@@ -85,7 +87,7 @@ namespace DaigouTest
         public void TestOrderBOGetById()
         {
             OrderBO bo = new OrderBO(_conn);
-            OrderModel order = bo.GetByID(7);
+            OrderModel order = bo.GetByID(8);
         }
 
         [TestMethod]
