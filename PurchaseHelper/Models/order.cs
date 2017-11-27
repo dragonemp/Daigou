@@ -6,11 +6,11 @@ namespace PurchaseHelper.Models
 {
     public enum OrderStatus
     {
-        Pending = 1,
-        Shipped = 2,
-        Delivered = 3,
-        Returned = 4,
-        Cancelled = 5
+        Pending = 0,
+        Shipped = 1,
+        Delivered = 2,
+        Returned = 3,
+        Cancelled = 4
     }
     public class OrderModel
     {
@@ -30,11 +30,18 @@ namespace PurchaseHelper.Models
         [DataMapper("OrderStatus")]
         public int OrderStatus { get; set; }
         [DataMapper("ShippingCost")]
-        public double? ShippingCost { get; set; }
+        public decimal? ShippingCost { get; set; }
         [DataMapper("ChargedPrice")]
-        public double? ChargedPrice { get; set; }
-        public double? Profit { get; set; }
+        public decimal? ChargedPrice { get; set; }
+        public decimal? Profit { get; set; }
         public List<OrderItemModel> OrderItems { get; set; }
+        public string OrderName
+        {
+            get
+            {
+                return OrderID + " : " + (OrderStatus)OrderStatus;
+            }
+        }
     }
 
     public class OrderItemModel
@@ -49,8 +56,15 @@ namespace PurchaseHelper.Models
         [DataMapper("Number")]
         public int Number { get; set; }
         [DataMapper("DiscountPercent")]
-        public double? DiscountPercent { get; set; }
+        public decimal? DiscountPercent { get; set; }
         [DataMapper("DiscountValue")]
-        public double? DiscountValue { get; set; }
+        public decimal? DiscountValue { get; set; }
+        public string OrderItemName
+        {
+            get
+            {
+                return OrderItemID + " : " + Merchandise.Name;
+            }
+        }
     }
 }

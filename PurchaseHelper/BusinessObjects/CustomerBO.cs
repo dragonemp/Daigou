@@ -111,19 +111,19 @@ namespace PurchaseHelper.BusinessObjects
                 ValidationErrors.Add("Country cannot be more than 50 characters");
             }
 
-            if (Contract.Address2.Length > 50)
+            if (!string.IsNullOrEmpty(Contract.Address2) && Contract.Address2.Length > 50)
             {
                 isValid = false;
                 ValidationErrors.Add("Address 2 cannot be more than 50 characters");
             }
 
-            if (Contract.IdentificationNumber.Length > 50)
+            if (!string.IsNullOrEmpty(Contract.IdentificationNumber) && Contract.IdentificationNumber.Length > 50)
             {
                 isValid = false;
                 ValidationErrors.Add("Identification Number cannot be more than 50 characters");
             }
 
-            if (Contract.IM.Length > 50)
+            if (!string.IsNullOrEmpty(Contract.IM) && Contract.IM.Length > 50)
             {
                 isValid = false;
                 ValidationErrors.Add("IM cannot be more than 50 characters");

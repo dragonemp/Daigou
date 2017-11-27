@@ -335,7 +335,7 @@ namespace PurchaseHelper.BusinessObjects
 				}
 				else
 				{
-					value = Convert.ToInt32(value);
+					value = Convert.ToDecimal(value);
 				}
 			}
 

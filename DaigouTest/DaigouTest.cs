@@ -26,14 +26,17 @@ namespace DaigouTest
             CustomerBO bo = new CustomerBO(_conn);
             CustomerModel contract = new CustomerModel();
             contract.CustomerId = 5;
-            contract.FirstName = "a1";
-            contract.LastName = "b";
-            contract.Address1 = "c";
-            contract.City = "d";
-            contract.State = "e";
-            contract.Phone = "f";
-            contract.Zip = "g";
-            contract.Country = "h";
+            contract.FirstName = "莉";
+            contract.LastName = "王";
+            contract.Address1 = "二环路东四段426号4单元5号";
+            contract.City = "成都市";
+            contract.State = "四川省";
+            contract.Phone = "18980078133";
+            contract.Zip = "610000";
+            contract.Country = "中国";
+            string fileName = @"E:/Downloads/wenphoto.PNG";
+            byte[] bytes = File.ReadAllBytes(fileName);
+            contract.CustomerPicture = bytes;
 
             bo.Save(contract);
         }
@@ -48,10 +51,9 @@ namespace DaigouTest
             contract.Name = "b";
             string fileName = @"E:/Downloads/wenphoto.PNG";
             byte[] bytes = File.ReadAllBytes(fileName);
-            string base64String = System.Convert.ToBase64String(bytes);
-            contract.Picture = base64String;
+            contract.Picture = bytes;
             contract.Store = "d";
-            contract.USDPrice = 1.345;
+            contract.USDPrice = (decimal)1.345;
             contract.weight = 1.25;
 
             bo.Save(contract);
@@ -65,13 +67,13 @@ namespace DaigouTest
             contract.OrderID = -1;
             contract.CustomerID = 5;
             contract.OrderDate = DateTime.Parse("1/5/2015");
-            contract.ShippingCost = 12.45;
-            contract.ChargedPrice = 52.12;
+            contract.ShippingCost = (decimal)12.45;
+            contract.ChargedPrice = (decimal)52.12;
             contract.OrderItems = new System.Collections.Generic.List<OrderItemModel>();
             OrderItemModel item = new OrderItemModel();
             item.MerchandiseID = 1;
             item.Number = 3;
-            item.DiscountPercent = 1.5;
+            item.DiscountPercent = (decimal)1.5;
             contract.OrderItems.Add(item);
             bo.Save(contract);
         }

@@ -28,5 +28,14 @@ namespace PurchaseHelper.Models
         public string IM { get; set; }
         [DataMapper("IdentificationNumber")]
         public string IdentificationNumber { get; set; }
+        [DataMapper("CustomerPicture")]
+        public byte[] CustomerPicture { get; set; }
+        public string Name
+        {
+            get
+            {
+                return CustomerId + " : " + LastName + " " + FirstName;
+            }
+        }
     }
 }

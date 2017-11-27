@@ -1,4 +1,5 @@
 ﻿using PurchaseHelper.BusinessObjects;
+using System.Drawing;
 
 namespace PurchaseHelper.Models
 {
@@ -13,10 +14,17 @@ namespace PurchaseHelper.Models
         [DataMapper("Store")]
         public string Store { get; set; }
         [DataMapper("Picture")]
-        public string Picture { get; set; }
+        public byte[] Picture { get; set; }
         [DataMapper("USDPrice")]
-        public double USDPrice { get; set; }
+        public decimal USDPrice { get; set; }
         [DataMapper("weight")]
-        public double weight { get; set; }        
+        public double weight { get; set; }     
+        public string MerchandiseName
+        {
+            get
+            {
+                return MerchandiseID + " : " + Name;
+            }
+        }
     }
 }

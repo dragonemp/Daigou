@@ -27,45 +27,64 @@ namespace PurchaseHelper.BusinessObjects
                     isInsert = false;
                     pkVal = (int)cw.GetFieldValue(PrimaryKey);
                 }
-                string cols = "", vals = "";
+                string cols = "", vals = "", colVars = "";
                 string update = "";
                 object val;
                 string formattedVal;
                 string sql = "";
+                List<SqlParameter> parameters = new List<SqlParameter>();
                 foreach (var fldInfo in cw.FieldMap)
                 {
                     string fldName = fldInfo.Key;
+                    string parameterName = "@" + fldName;
                     PropertyInfo prop = fldInfo.Value;
                     val = cw.GetFieldValue(fldName);
                     if (val != null && fldName != PrimaryKey)
                     {
-                        if (prop.PropertyType == typeof(string))
+                        SqlParameter parameter = new SqlParameter();
+                        parameter.ParameterName = parameterName;
+                        parameter.Direction = ParameterDirection.Input;
+                        parameter.Value = val;
+                        if (prop.PropertyType == typeof(decimal))
                         {
-                            formattedVal = "'" + val.ToString().Replace("'", "''") + "'";
+                            parameter.SqlDbType = SqlDbType.Decimal;
+                        }
+                        else if (prop.PropertyType == typeof(double))
+                        {
+                            parameter.SqlDbType = SqlDbType.Float;
+                        }
+                        else if (prop.PropertyType == typeof(int))
+                        {
+                            parameter.SqlDbType = SqlDbType.Int;
                         }
                         else if (prop.PropertyType == typeof(DateTime))
                         {
-                            formattedVal = "'" + val.ToString() + "'";
+                            parameter.SqlDbType = SqlDbType.DateTime;
+                        }
+                        else if(prop.PropertyType == typeof(byte[]))
+                        {
+                            parameter.SqlDbType = SqlDbType.Binary;
                         }
                         else
                         {
-                            formattedVal = val.ToString();
+                            parameter.SqlDbType = SqlDbType.NText;
                         }
+                        parameters.Add(parameter);
 
                         if (isInsert)
                         {
                             cols += fldName + ",";
-                            vals += formattedVal + ",";
+                            colVars += parameterName + ",";
                         }
                         else
                         {
-                            update += fldName + "=" + formattedVal + ",";
+                            update += fldName + "=" + parameterName + ",";
                         }
                     }
 
                 }
                 if (isInsert)
-                    sql = string.Format("INSERT INTO {0}({1}) OUTPUT Inserted.{3} VALUES({2})", TableName, cols.Substring(0, cols.Length - 1), vals.Substring(0, vals.Length - 1), PrimaryKey);
+                    sql = string.Format("INSERT INTO {0}({1}) OUTPUT Inserted.{3} VALUES({2})", TableName, cols.Substring(0, cols.Length - 1), colVars.Substring(0, colVars.Length - 1), PrimaryKey);
                 else
                     sql = string.Format("UPDATE {0} SET {1} WHERE {2}={3}", TableName, update.Substring(0, update.Length - 1), PrimaryKey, pkVal.ToString());
 
@@ -75,6 +94,10 @@ namespace PurchaseHelper.BusinessObjects
                     {
                         comm.Connection = conn;
                         comm.CommandText = sql;
+                        foreach(SqlParameter parameter in parameters)
+                        {
+                            comm.Parameters.Add(parameter);
+                        }
                         try
                         {
                             conn.Open();

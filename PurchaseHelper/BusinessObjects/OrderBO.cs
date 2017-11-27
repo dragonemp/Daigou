@@ -62,25 +62,25 @@ namespace PurchaseHelper.BusinessObjects
             return orders;
         }
 
-        public double CalculateProfit(OrderModel order)
+        public decimal CalculateProfit(OrderModel order)
         {
-            double profit = 0;
-            double cost = 0;
+            decimal profit = 0;
+            decimal cost = 0;
             CurrencyHelper obj = new CurrencyHelper();
             decimal exchangeRate = obj.GetExchangeRates("CNY");
             foreach(OrderItemModel orderItem in order.OrderItems)
             {
                 if (orderItem.DiscountValue.HasValue)
                 {
-                    cost += (orderItem.Merchandise.USDPrice - orderItem.DiscountValue.Value) * (double)exchangeRate;
+                    cost += (orderItem.Merchandise.USDPrice - orderItem.DiscountValue.Value) * exchangeRate;
                 }
                 else if(orderItem.DiscountPercent.HasValue)
                 {
-                    cost += orderItem.Merchandise.USDPrice * (100 - orderItem.DiscountPercent.Value) / 100 * (double)exchangeRate;
+                    cost += orderItem.Merchandise.USDPrice * (100 - orderItem.DiscountPercent.Value) / 100 * exchangeRate;
                 }
                 else
                 {
-                    cost += orderItem.Merchandise.USDPrice * (double)exchangeRate;
+                    cost += orderItem.Merchandise.USDPrice * exchangeRate;
                 }
             }
             if (order.ShippingCost.HasValue)
