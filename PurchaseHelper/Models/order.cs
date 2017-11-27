@@ -39,7 +39,7 @@ namespace PurchaseHelper.Models
         {
             get
             {
-                return OrderID + " : " + (OrderStatus)OrderStatus;
+                return OrderID.HasValue ? OrderID.Value + " : " + (OrderStatus)OrderStatus : "";
             }
         }
     }
@@ -63,7 +63,7 @@ namespace PurchaseHelper.Models
         {
             get
             {
-                return OrderItemID + " : " + Merchandise.Name;
+                return OrderItemID.HasValue ? OrderItemID.Value + " : " + Merchandise.Name : "";
             }
         }
     }

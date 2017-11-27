@@ -23,7 +23,7 @@ namespace PurchaseHelper.Models
         {
             get
             {
-                return MerchandiseID + " : " + Name;
+                return MerchandiseID.HasValue ? MerchandiseID.Value + " : " + Name : "";
             }
         }
     }

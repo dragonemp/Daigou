@@ -15,7 +15,7 @@ namespace PurchaseHelper.BusinessObjects
         public override int Save(OrderModel Contract)
         {
             int id = base.Save(Contract);
-            if (id > 0)
+            if (id > 0 && Contract.OrderItems != null)
             {
                 OrderItemBO childBo = new OrderItemBO(_connString);
                 foreach (OrderItemModel orderItem in Contract.OrderItems)
@@ -40,24 +40,27 @@ namespace PurchaseHelper.BusinessObjects
                 order.Customer = customer.GetByID(order.CustomerID);
             }
             OrderItemBO orderitem = new OrderItemBO(_connString);
-            order.OrderItems = orderitem.GetList("OrderID=" + order.OrderID.ToString());
+            order.OrderItems = orderitem.GetList("OrderID=" + order.OrderID.ToString(), true);
             order.Profit = CalculateProfit(order);
             return order;
         }
 
-        public override List<OrderModel> GetList(string filter)
+        public override List<OrderModel> GetList(string filter, bool addBlankItem = false)
         {
-            List<OrderModel> orders = base.GetList(filter);
+            List<OrderModel> orders = base.GetList(filter, addBlankItem);
             OrderItemBO orderitem = new OrderItemBO(_connString);
             foreach (OrderModel order in orders)
             {
-                if (order.CustomerID > 0)
+                if (order.OrderID > 0)
                 {
-                    CustomerBO customer = new CustomerBO(_connString);
-                    order.Customer = customer.GetByID(order.CustomerID);
+                    if (order.CustomerID > 0)
+                    {
+                        CustomerBO customer = new CustomerBO(_connString);
+                        order.Customer = customer.GetByID(order.CustomerID);
+                    }
+                    order.OrderItems = orderitem.GetList("OrderID=" + order.OrderID.ToString(), true);
+                    order.Profit = CalculateProfit(order);
                 }
-                order.OrderItems = orderitem.GetList("OrderID=" + order.OrderID.ToString());
-                order.Profit = CalculateProfit(order);
             }
             return orders;
         }
@@ -70,17 +73,20 @@ namespace PurchaseHelper.BusinessObjects
             decimal exchangeRate = obj.GetExchangeRates("CNY");
             foreach(OrderItemModel orderItem in order.OrderItems)
             {
-                if (orderItem.DiscountValue.HasValue)
+                if (orderItem.Merchandise != null)
                 {
-                    cost += (orderItem.Merchandise.USDPrice - orderItem.DiscountValue.Value) * exchangeRate;
-                }
-                else if(orderItem.DiscountPercent.HasValue)
-                {
-                    cost += orderItem.Merchandise.USDPrice * (100 - orderItem.DiscountPercent.Value) / 100 * exchangeRate;
-                }
-                else
-                {
-                    cost += orderItem.Merchandise.USDPrice * exchangeRate;
+                    if (orderItem.DiscountValue.HasValue)
+                    {
+                        cost += (orderItem.Merchandise.USDPrice - orderItem.DiscountValue.Value) * exchangeRate;
+                    }
+                    else if (orderItem.DiscountPercent.HasValue)
+                    {
+                        cost += orderItem.Merchandise.USDPrice * (100 - orderItem.DiscountPercent.Value) / 100 * exchangeRate;
+                    }
+                    else
+                    {
+                        cost += orderItem.Merchandise.USDPrice * exchangeRate;
+                    }
                 }
             }
             if (order.ShippingCost.HasValue)
@@ -111,9 +117,9 @@ namespace PurchaseHelper.BusinessObjects
             return orderitem;
         }
 
-        public override List<OrderItemModel> GetList(string filter)
+        public override List<OrderItemModel> GetList(string filter, bool addBlankItem = false)
         {
-            List<OrderItemModel> orderItems = base.GetList(filter);
+            List<OrderItemModel> orderItems = base.GetList(filter, addBlankItem);
             foreach (OrderItemModel orderItem in orderItems)
             {
                 if (orderItem.MerchandiseID > 0)
@@ -124,6 +130,27 @@ namespace PurchaseHelper.BusinessObjects
             }
 
             return orderItems;
+        }
+
+        protected override bool Validate(OrderItemModel Contract)
+        {
+            bool isValid = base.Validate(Contract);
+            if(!Contract.OrderID.HasValue || Contract.OrderID.Value <= 0)
+            {
+                isValid = false;
+                ValidationErrors.Add("Order ID is required");
+            }
+            if (Contract.MerchandiseID <= 0)
+            {
+                isValid = false;
+                ValidationErrors.Add("Merchandise is required");
+            }
+            if(Contract.Number <= 0)
+            {
+                isValid = false;
+                ValidationErrors.Add("Number must be greater than 0");
+            }
+            return isValid;
         }
     }
 }

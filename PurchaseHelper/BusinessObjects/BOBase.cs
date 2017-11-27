@@ -45,19 +45,19 @@ namespace PurchaseHelper.BusinessObjects
                         parameter.ParameterName = parameterName;
                         parameter.Direction = ParameterDirection.Input;
                         parameter.Value = val;
-                        if (prop.PropertyType == typeof(decimal))
+                        if (prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(decimal?))
                         {
                             parameter.SqlDbType = SqlDbType.Decimal;
                         }
-                        else if (prop.PropertyType == typeof(double))
+                        else if (prop.PropertyType == typeof(double) || prop.PropertyType == typeof(double?))
                         {
                             parameter.SqlDbType = SqlDbType.Float;
                         }
-                        else if (prop.PropertyType == typeof(int))
+                        else if (prop.PropertyType == typeof(int) || prop.PropertyType == typeof(int?))
                         {
                             parameter.SqlDbType = SqlDbType.Int;
                         }
-                        else if (prop.PropertyType == typeof(DateTime))
+                        else if (prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
                         {
                             parameter.SqlDbType = SqlDbType.DateTime;
                         }
@@ -86,7 +86,7 @@ namespace PurchaseHelper.BusinessObjects
                 if (isInsert)
                     sql = string.Format("INSERT INTO {0}({1}) OUTPUT Inserted.{3} VALUES({2})", TableName, cols.Substring(0, cols.Length - 1), colVars.Substring(0, colVars.Length - 1), PrimaryKey);
                 else
-                    sql = string.Format("UPDATE {0} SET {1} WHERE {2}={3}", TableName, update.Substring(0, update.Length - 1), PrimaryKey, pkVal.ToString());
+                    sql = string.Format("UPDATE {0} SET {1} OUTPUT Inserted.{2} WHERE {2}={3}", TableName, update.Substring(0, update.Length - 1), PrimaryKey, pkVal.ToString());
 
                 using (SqlConnection conn = new SqlConnection(_connString))
                 {
@@ -129,6 +129,7 @@ namespace PurchaseHelper.BusinessObjects
                     {
                         conn.Open();
                         comm.ExecuteScalar();
+                        deleted = true;
                     }
                     catch (Exception e)
                     {
@@ -162,11 +163,16 @@ namespace PurchaseHelper.BusinessObjects
             return _myValues;
         }
 
-        public virtual List<T> GetList(string filter)
+        public virtual List<T> GetList(string filter, bool addBlankItem = false)
         {
             DataReaderMapper _mapper = new DataReaderMapper();
             ContractWrapper<T> _contractWrapper = new ContractWrapper<T>();
             _myList = new List<T>();
+            if (addBlankItem)
+            {
+                T blankItem = new T();
+                _myList.Add(blankItem);
+            }
             using (SqlConnection myConnection = new SqlConnection(_connString))
             {
                 string sql;

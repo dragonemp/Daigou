@@ -34,7 +34,7 @@ namespace PurchaseHelper.Models
         {
             get
             {
-                return CustomerId + " : " + LastName + " " + FirstName;
+                return CustomerId.HasValue ? CustomerId.Value + " : " + LastName + " " + FirstName : "";
             }
         }
     }

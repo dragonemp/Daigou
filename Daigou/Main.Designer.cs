@@ -60,6 +60,11 @@
             this.label15 = new System.Windows.Forms.Label();
             this.pbMerchandise = new System.Windows.Forms.PictureBox();
             this.pbCustomer = new System.Windows.Forms.PictureBox();
+            this.btnSaveItem = new System.Windows.Forms.Button();
+            this.btnDeleteItem = new System.Windows.Forms.Button();
+            this.btnSaveOrder = new System.Windows.Forms.Button();
+            this.btnNewOrder = new System.Windows.Forms.Button();
+            this.btnDeleteOrder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudSalePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShipCost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumer)).BeginInit();
@@ -244,7 +249,7 @@
             // cbMerchandise
             // 
             this.cbMerchandise.FormattingEnabled = true;
-            this.cbMerchandise.Location = new System.Drawing.Point(495, 40);
+            this.cbMerchandise.Location = new System.Drawing.Point(74, 286);
             this.cbMerchandise.Name = "cbMerchandise";
             this.cbMerchandise.Size = new System.Drawing.Size(200, 21);
             this.cbMerchandise.TabIndex = 21;
@@ -253,7 +258,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(458, 48);
+            this.label11.Location = new System.Drawing.Point(37, 294);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(31, 13);
             this.label11.TabIndex = 22;
@@ -261,7 +266,7 @@
             // 
             // nudNumer
             // 
-            this.nudNumer.Location = new System.Drawing.Point(495, 68);
+            this.nudNumer.Location = new System.Drawing.Point(74, 314);
             this.nudNumer.Name = "nudNumer";
             this.nudNumer.Size = new System.Drawing.Size(120, 20);
             this.nudNumer.TabIndex = 23;
@@ -269,7 +274,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(458, 75);
+            this.label12.Location = new System.Drawing.Point(37, 321);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(31, 13);
             this.label12.TabIndex = 24;
@@ -277,7 +282,7 @@
             // 
             // nudDiscountPercent
             // 
-            this.nudDiscountPercent.Location = new System.Drawing.Point(495, 95);
+            this.nudDiscountPercent.Location = new System.Drawing.Point(74, 341);
             this.nudDiscountPercent.Name = "nudDiscountPercent";
             this.nudDiscountPercent.Size = new System.Drawing.Size(120, 20);
             this.nudDiscountPercent.TabIndex = 25;
@@ -285,7 +290,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(422, 102);
+            this.label13.Location = new System.Drawing.Point(1, 348);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(67, 13);
             this.label13.TabIndex = 26;
@@ -294,7 +299,7 @@
             // nudDiscountValue
             // 
             this.nudDiscountValue.DecimalPlaces = 2;
-            this.nudDiscountValue.Location = new System.Drawing.Point(495, 123);
+            this.nudDiscountValue.Location = new System.Drawing.Point(74, 369);
             this.nudDiscountValue.Name = "nudDiscountValue";
             this.nudDiscountValue.Size = new System.Drawing.Size(120, 20);
             this.nudDiscountValue.TabIndex = 27;
@@ -302,7 +307,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(447, 130);
+            this.label14.Location = new System.Drawing.Point(26, 376);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(43, 13);
             this.label14.TabIndex = 28;
@@ -311,7 +316,7 @@
             // txtOriginalPrice
             // 
             this.txtOriginalPrice.Enabled = false;
-            this.txtOriginalPrice.Location = new System.Drawing.Point(495, 150);
+            this.txtOriginalPrice.Location = new System.Drawing.Point(74, 396);
             this.txtOriginalPrice.Name = "txtOriginalPrice";
             this.txtOriginalPrice.ReadOnly = true;
             this.txtOriginalPrice.Size = new System.Drawing.Size(120, 20);
@@ -320,7 +325,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(458, 157);
+            this.label15.Location = new System.Drawing.Point(37, 403);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(31, 13);
             this.label15.TabIndex = 30;
@@ -328,25 +333,80 @@
             // 
             // pbMerchandise
             // 
-            this.pbMerchandise.Location = new System.Drawing.Point(495, 178);
+            this.pbMerchandise.Location = new System.Drawing.Point(282, 285);
             this.pbMerchandise.Name = "pbMerchandise";
-            this.pbMerchandise.Size = new System.Drawing.Size(200, 102);
+            this.pbMerchandise.Size = new System.Drawing.Size(307, 149);
             this.pbMerchandise.TabIndex = 31;
             this.pbMerchandise.TabStop = false;
             // 
             // pbCustomer
             // 
-            this.pbCustomer.Location = new System.Drawing.Point(282, 13);
+            this.pbCustomer.Location = new System.Drawing.Point(438, 13);
             this.pbCustomer.Name = "pbCustomer";
             this.pbCustomer.Size = new System.Drawing.Size(134, 131);
             this.pbCustomer.TabIndex = 32;
             this.pbCustomer.TabStop = false;
             // 
+            // btnSaveItem
+            // 
+            this.btnSaveItem.Location = new System.Drawing.Point(282, 256);
+            this.btnSaveItem.Name = "btnSaveItem";
+            this.btnSaveItem.Size = new System.Drawing.Size(40, 23);
+            this.btnSaveItem.TabIndex = 33;
+            this.btnSaveItem.Text = "保存";
+            this.btnSaveItem.UseVisualStyleBackColor = true;
+            this.btnSaveItem.Click += new System.EventHandler(this.btnSaveItem_Click);
+            // 
+            // btnDeleteItem
+            // 
+            this.btnDeleteItem.Location = new System.Drawing.Point(328, 256);
+            this.btnDeleteItem.Name = "btnDeleteItem";
+            this.btnDeleteItem.Size = new System.Drawing.Size(40, 23);
+            this.btnDeleteItem.TabIndex = 35;
+            this.btnDeleteItem.Text = "删除";
+            this.btnDeleteItem.UseVisualStyleBackColor = true;
+            this.btnDeleteItem.Click += new System.EventHandler(this.btnDeleteItem_Click);
+            // 
+            // btnSaveOrder
+            // 
+            this.btnSaveOrder.Location = new System.Drawing.Point(282, 39);
+            this.btnSaveOrder.Name = "btnSaveOrder";
+            this.btnSaveOrder.Size = new System.Drawing.Size(40, 23);
+            this.btnSaveOrder.TabIndex = 36;
+            this.btnSaveOrder.Text = "保存";
+            this.btnSaveOrder.UseVisualStyleBackColor = true;
+            this.btnSaveOrder.Click += new System.EventHandler(this.btnSaveOrder_Click);
+            // 
+            // btnNewOrder
+            // 
+            this.btnNewOrder.Location = new System.Drawing.Point(281, 13);
+            this.btnNewOrder.Name = "btnNewOrder";
+            this.btnNewOrder.Size = new System.Drawing.Size(40, 23);
+            this.btnNewOrder.TabIndex = 37;
+            this.btnNewOrder.Text = "新单";
+            this.btnNewOrder.UseVisualStyleBackColor = true;
+            this.btnNewOrder.Click += new System.EventHandler(this.btnNewOrder_Click);
+            // 
+            // btnDeleteOrder
+            // 
+            this.btnDeleteOrder.Location = new System.Drawing.Point(328, 39);
+            this.btnDeleteOrder.Name = "btnDeleteOrder";
+            this.btnDeleteOrder.Size = new System.Drawing.Size(40, 23);
+            this.btnDeleteOrder.TabIndex = 38;
+            this.btnDeleteOrder.Text = "删除";
+            this.btnDeleteOrder.UseVisualStyleBackColor = true;
+            this.btnDeleteOrder.Click += new System.EventHandler(this.btnDeleteOrder_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(716, 293);
+            this.ClientSize = new System.Drawing.Size(601, 446);
+            this.Controls.Add(this.btnDeleteOrder);
+            this.Controls.Add(this.btnNewOrder);
+            this.Controls.Add(this.btnSaveOrder);
+            this.Controls.Add(this.btnDeleteItem);
+            this.Controls.Add(this.btnSaveItem);
             this.Controls.Add(this.pbCustomer);
             this.Controls.Add(this.pbMerchandise);
             this.Controls.Add(this.label15);
@@ -427,6 +487,11 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.PictureBox pbMerchandise;
         private System.Windows.Forms.PictureBox pbCustomer;
+        private System.Windows.Forms.Button btnSaveItem;
+        private System.Windows.Forms.Button btnDeleteItem;
+        private System.Windows.Forms.Button btnSaveOrder;
+        private System.Windows.Forms.Button btnNewOrder;
+        private System.Windows.Forms.Button btnDeleteOrder;
     }
 }
 
