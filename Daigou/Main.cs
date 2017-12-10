@@ -174,7 +174,12 @@ namespace Daigou
                 cbStatus.SelectedIndex = order.OrderStatus;
                 nudSalePrice.Value = order.ChargedPrice.HasValue ? (decimal)order.ChargedPrice.Value : 0;
                 nudShipCost.Value = order.ShippingCost.HasValue ? (decimal)order.ShippingCost.Value : 0;
-                txtProfit.Text = order.Profit.ToString();
+                lblProfit.Text = order.Profit.ToString();
+                if (order.Profit.Value >= 0)
+                    lblProfit.ForeColor = Color.Green;
+                else
+                    lblProfit.ForeColor = Color.Red;
+                lblExchangeRate.Text = order.ExchangeRate.ToString();
                 txtShippingNumber.Text = order.ShipmentNumber;
                 LoadOrderItemList(order.OrderItems);
             }
@@ -239,7 +244,8 @@ namespace Daigou
             nudShipCost.Visible = enable;
             txtShippingNumber.Visible = enable;
             cbOrderItem.Visible = enable;
-            txtProfit.Visible = enable;
+            lblProfit.Visible = enable;
+            lblExchangeRate.Visible = enable;
             btnSaveItem.Visible = enable;
             btnDeleteItem.Visible = enable;
             if (!enable)

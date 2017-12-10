@@ -34,6 +34,15 @@ namespace PurchaseHelper.Models
         [DataMapper("ChargedPrice")]
         public decimal? ChargedPrice { get; set; }
         public decimal? Profit { get; set; }
+        public decimal ExchangeRate
+        {
+            get
+            {
+                CurrencyHelper obj = new CurrencyHelper();
+                decimal exchangeRate = obj.GetExchangeRates("CNY");
+                return exchangeRate;
+            }
+        }
         public List<OrderItemModel> OrderItems { get; set; }
         public string OrderName
         {

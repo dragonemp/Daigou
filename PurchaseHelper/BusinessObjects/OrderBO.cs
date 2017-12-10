@@ -69,8 +69,7 @@ namespace PurchaseHelper.BusinessObjects
         {
             decimal profit = 0;
             decimal cost = 0;
-            CurrencyHelper obj = new CurrencyHelper();
-            decimal exchangeRate = obj.GetExchangeRates("CNY");
+            decimal exchangeRate = order.ExchangeRate;
             foreach(OrderItemModel orderItem in order.OrderItems)
             {
                 if (orderItem.Merchandise != null)
