@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.comboBoxCustomer = new System.Windows.Forms.ComboBox();
             this.comboBoxOrder = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -66,8 +67,12 @@
             this.btnDeleteOrder = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblProfit = new System.Windows.Forms.Label();
+            this.lblExchangeRate = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnNewCustomer = new System.Windows.Forms.Button();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
@@ -126,10 +131,7 @@
             this.cbMerchandiseList = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label36 = new System.Windows.Forms.Label();
-            this.lblExchangeRate = new System.Windows.Forms.Label();
-            this.lblProfit = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudSalePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShipCost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumer)).BeginInit();
@@ -140,6 +142,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCustomerPic)).BeginInit();
@@ -148,7 +151,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMerchandisePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMerchandisePic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxCustomer
@@ -516,6 +519,7 @@
             // tabPage1
             // 
             this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tabPage1.Controls.Add(this.pictureBox2);
             this.tabPage1.Controls.Add(this.lblProfit);
             this.tabPage1.Controls.Add(this.lblExchangeRate);
             this.tabPage1.Controls.Add(this.label36);
@@ -566,6 +570,31 @@
             this.tabPage1.Text = "订单";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // lblProfit
+            // 
+            this.lblProfit.AutoSize = true;
+            this.lblProfit.Location = new System.Drawing.Point(569, 340);
+            this.lblProfit.Name = "lblProfit";
+            this.lblProfit.Size = new System.Drawing.Size(0, 20);
+            this.lblProfit.TabIndex = 43;
+            // 
+            // lblExchangeRate
+            // 
+            this.lblExchangeRate.AutoSize = true;
+            this.lblExchangeRate.Location = new System.Drawing.Point(122, 337);
+            this.lblExchangeRate.Name = "lblExchangeRate";
+            this.lblExchangeRate.Size = new System.Drawing.Size(0, 20);
+            this.lblExchangeRate.TabIndex = 42;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(64, 338);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(41, 20);
+            this.label36.TabIndex = 41;
+            this.label36.Text = "利率";
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -582,6 +611,16 @@
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Daigou.Properties.Resources.gold_soins_falling_o;
+            this.pictureBox1.Location = new System.Drawing.Point(4, 9);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(912, 685);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 40;
+            this.pictureBox1.TabStop = false;
             // 
             // tabPage2
             // 
@@ -1190,40 +1229,16 @@
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
             // 
-            // pictureBox1
+            // pictureBox2
             // 
-            this.pictureBox1.Image = global::Daigou.Properties.Resources.gold_soins_falling_o;
-            this.pictureBox1.Location = new System.Drawing.Point(4, 9);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(912, 685);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 40;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(64, 338);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(41, 20);
-            this.label36.TabIndex = 41;
-            this.label36.Text = "利率";
-            // 
-            // lblExchangeRate
-            // 
-            this.lblExchangeRate.AutoSize = true;
-            this.lblExchangeRate.Location = new System.Drawing.Point(122, 337);
-            this.lblExchangeRate.Name = "lblExchangeRate";
-            this.lblExchangeRate.Size = new System.Drawing.Size(0, 20);
-            this.lblExchangeRate.TabIndex = 42;
-            // 
-            // lblProfit
-            // 
-            this.lblProfit.AutoSize = true;
-            this.lblProfit.Location = new System.Drawing.Point(569, 340);
-            this.lblProfit.Name = "lblProfit";
-            this.lblProfit.Size = new System.Drawing.Size(0, 20);
-            this.lblProfit.TabIndex = 43;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(3, 9);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(910, 685);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 44;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // Main
             // 
@@ -1246,6 +1261,7 @@
             this.tabPage1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.statusStrip2.ResumeLayout(false);
@@ -1258,7 +1274,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMerchandisePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMerchandisePic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1367,6 +1383,7 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label lblProfit;
         private System.Windows.Forms.Label lblExchangeRate;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 

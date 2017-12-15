@@ -34,7 +34,7 @@ namespace DaigouTest
             contract.Phone = "18980078133";
             contract.Zip = "610000";
             contract.Country = "中国";
-            string fileName = @"E:/Downloads/wenphoto.PNG";
+            string fileName = @"D:/Downloads/wenphoto.PNG";
             byte[] bytes = File.ReadAllBytes(fileName);
             contract.CustomerPicture = bytes;
 
@@ -49,7 +49,7 @@ namespace DaigouTest
             contract.MerchandiseID = 1;
             contract.Description = "a";
             contract.Name = "b";
-            string fileName = @"E:/Downloads/wenphoto.PNG";
+            string fileName = @"D:/Downloads/wenphoto.PNG";
             byte[] bytes = File.ReadAllBytes(fileName);
             contract.Picture = bytes;
             contract.Store = "d";
