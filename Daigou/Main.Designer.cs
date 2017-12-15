@@ -1248,7 +1248,7 @@
             this.Controls.Add(this.tabControl1);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Main";
-            this.Text = "Form1";
+            this.Text = "代购生日版";
             ((System.ComponentModel.ISupportInitialize)(this.nudSalePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShipCost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumer)).EndInit();
