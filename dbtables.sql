@@ -1,4 +1,7 @@
-﻿/****** Object:  Table [dbo].[Customer]    Script Date: 11/21/2017 10:20:03 PM ******/
+﻿USE [Daigou]
+GO
+
+/****** Object:  Table [dbo].[Customer]    Script Date: 1/8/2018 4:08:30 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -18,14 +21,15 @@ CREATE TABLE [dbo].[Customer](
 	[IM] [nvarchar](50) NULL,
 	[IdentificationNumber] [nvarchar](50) NULL,
 	[CustomerID] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerPicture] [image] NULL,
  CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
 (
 	[CustomerID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Merchandise]    Script Date: 11/21/2017 10:20:03 PM ******/
+/****** Object:  Table [dbo].[Merchandise]    Script Date: 1/8/2018 4:08:30 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -39,7 +43,7 @@ CREATE TABLE [dbo].[Merchandise](
 	[USDPrice] [decimal](18, 2) NULL,
 	[weight] [float] NULL,
 	[MerchandiseID] [int] IDENTITY(1,1) NOT NULL,
-	[Picture] [nvarchar](max) NULL,
+	[Picture] [image] NULL,
  CONSTRAINT [PK_Merchandise] PRIMARY KEY CLUSTERED 
 (
 	[MerchandiseID] ASC
@@ -47,7 +51,7 @@ CREATE TABLE [dbo].[Merchandise](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[OrderItem]    Script Date: 11/21/2017 10:20:03 PM ******/
+/****** Object:  Table [dbo].[OrderItem]    Script Date: 1/8/2018 4:08:30 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -68,7 +72,7 @@ CREATE TABLE [dbo].[OrderItem](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Orders]    Script Date: 11/21/2017 10:20:03 PM ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 1/8/2018 4:08:30 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -83,6 +87,8 @@ CREATE TABLE [dbo].[Orders](
 	[ShipmentCarrier] [nvarchar](50) NULL,
 	[OrderID] [int] IDENTITY(1,1) NOT NULL,
 	[OrderStatus] [int] NULL,
+	[ShippingCost] [decimal](18, 2) NULL,
+	[ChargedPrice] [decimal](18, 2) NULL,
  CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED 
 (
 	[OrderID] ASC

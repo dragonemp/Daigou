@@ -131,7 +131,6 @@
             this.cbMerchandiseList = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudSalePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShipCost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumer)).BeginInit();
@@ -151,7 +150,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMerchandisePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMerchandisePic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxCustomer
@@ -519,7 +517,6 @@
             // tabPage1
             // 
             this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tabPage1.Controls.Add(this.pictureBox2);
             this.tabPage1.Controls.Add(this.lblProfit);
             this.tabPage1.Controls.Add(this.lblExchangeRate);
             this.tabPage1.Controls.Add(this.label36);
@@ -614,7 +611,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Daigou.Properties.Resources.gold_soins_falling_o;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(4, 9);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(912, 685);
@@ -1229,17 +1226,6 @@
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(3, 9);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(910, 685);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 44;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1274,7 +1260,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMerchandisePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMerchandisePic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1383,7 +1368,6 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label lblProfit;
         private System.Windows.Forms.Label lblExchangeRate;
-        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 
