@@ -135,9 +135,9 @@ namespace Daigou
                 {
                     Bitmap img = ByteToImage(customer.CustomerPicture);
                     pbCustomer.Image = img;
-                    pbCustomer.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbCustomer.SizeMode = PictureBoxSizeMode.Zoom;
                     pbCustomerPic.Image = img;
-                    pbCustomerPic.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbCustomerPic.SizeMode = PictureBoxSizeMode.Zoom;
                 }
                 else
                 {
@@ -196,9 +196,9 @@ namespace Daigou
                 {
                     Bitmap img = ByteToImage(merchandise.Picture);
                     pbMerchandise.Image = img;
-                    pbMerchandise.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbMerchandise.SizeMode = PictureBoxSizeMode.Zoom;
                     pbMerchandisePic.Image = img;
-                    pbMerchandisePic.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbMerchandisePic.SizeMode = PictureBoxSizeMode.Zoom;
                 }
                 else
                 {
@@ -210,6 +210,7 @@ namespace Daigou
                 nudMerchandisePrice.Value = merchandise.USDPrice;
                 nudWeight.Value = (decimal)merchandise.weight;
                 txtDesc.Text = merchandise.Description;
+                nudTax.Value = merchandise.Tax;
             }
             else
             {
@@ -302,13 +303,13 @@ namespace Daigou
                 order.OrderID = (int)comboBoxOrder.SelectedValue;
             if (comboBoxCustomer.SelectedValue != null)
                 order.CustomerID = (int)comboBoxCustomer.SelectedValue;
-            if (nudSalePrice.Value > 0)
+            if (nudSalePrice.Value >= 0)
                 order.ChargedPrice = nudSalePrice.Value;
             order.OrderStatus = (int)cbStatus.SelectedValue;
             order.OrderDate = dtOrderDate.Value;
             if (dtShipDate.Checked)
                 order.ShipmentDate = dtShipDate.Value;
-            if (nudShipCost.Value > 0)
+            if (nudShipCost.Value >= 0)
                 order.ShippingCost = nudShipCost.Value;
             order.ShipmentNumber = txtShippingNumber.Text;
             return order;
@@ -349,6 +350,7 @@ namespace Daigou
             merchandise.USDPrice = nudMerchandisePrice.Value;
             merchandise.weight = (double)nudWeight.Value;
             merchandise.Description = txtDesc.Text;
+            merchandise.Tax = nudTax.Value;
             string fileName = txtMerchandisePic.Text;
             if (!string.IsNullOrEmpty(fileName))
             {
@@ -705,7 +707,7 @@ namespace Daigou
         {
             toolStripStatusLabel3.Text = "Creating...";
             MerchandiseModel contract = new MerchandiseModel();
-            contract.Name = " ";
+            contract.Name = "";
             MerchandiseBO bo = new MerchandiseBO(_connString);
             int pk = bo.Save(contract);
             if (pk <= 0)
@@ -736,6 +738,16 @@ namespace Daigou
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             //pictureBox2.Hide();
+        }
+
+        private void pbMerchandisePic_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

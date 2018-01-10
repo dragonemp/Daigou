@@ -80,11 +80,11 @@ namespace PurchaseHelper.BusinessObjects
                     }
                     else if (orderItem.DiscountPercent.HasValue)
                     {
-                        cost += orderItem.Merchandise.USDPrice * (100 - orderItem.DiscountPercent.Value) / 100 * exchangeRate;
+                        cost += orderItem.Merchandise.USDPrice * (1 + orderItem.Merchandise.Tax / 100) * (1 - orderItem.DiscountPercent.Value / 100) * exchangeRate;
                     }
                     else
                     {
-                        cost += orderItem.Merchandise.USDPrice * exchangeRate;
+                        cost += orderItem.Merchandise.USDPrice * (1 + orderItem.Merchandise.Tax / 100) * exchangeRate;
                     }
                 }
             }

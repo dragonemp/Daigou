@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.comboBoxCustomer = new System.Windows.Forms.ComboBox();
             this.comboBoxOrder = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -131,6 +130,8 @@
             this.cbMerchandiseList = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.label37 = new System.Windows.Forms.Label();
+            this.nudTax = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.nudSalePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShipCost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumer)).BeginInit();
@@ -150,6 +151,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMerchandisePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMerchandisePic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTax)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxCustomer
@@ -233,6 +235,11 @@
             this.nudSalePrice.DecimalPlaces = 2;
             this.nudSalePrice.Location = new System.Drawing.Point(122, 252);
             this.nudSalePrice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nudSalePrice.Maximum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            0});
             this.nudSalePrice.Name = "nudSalePrice";
             this.nudSalePrice.Size = new System.Drawing.Size(180, 26);
             this.nudSalePrice.TabIndex = 9;
@@ -240,18 +247,23 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(64, 263);
+            this.label4.Location = new System.Drawing.Point(6, 254);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 20);
+            this.label4.Size = new System.Drawing.Size(99, 20);
             this.label4.TabIndex = 10;
-            this.label4.Text = "卖价";
+            this.label4.Text = "卖价(人民币)";
             // 
             // nudShipCost
             // 
             this.nudShipCost.DecimalPlaces = 2;
             this.nudShipCost.Location = new System.Drawing.Point(122, 294);
             this.nudShipCost.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nudShipCost.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
             this.nudShipCost.Name = "nudShipCost";
             this.nudShipCost.Size = new System.Drawing.Size(180, 26);
             this.nudShipCost.TabIndex = 11;
@@ -259,12 +271,12 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(64, 305);
+            this.label5.Location = new System.Drawing.Point(16, 294);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 20);
+            this.label5.Size = new System.Drawing.Size(89, 20);
             this.label5.TabIndex = 12;
-            this.label5.Text = "运费";
+            this.label5.Text = "运费（美元）";
             // 
             // label6
             // 
@@ -336,6 +348,7 @@
             // 
             // cbMerchandise
             // 
+            this.cbMerchandise.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cbMerchandise.FormattingEnabled = true;
             this.cbMerchandise.Location = new System.Drawing.Point(120, 460);
             this.cbMerchandise.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -422,12 +435,13 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(64, 640);
+            this.label15.Location = new System.Drawing.Point(14, 635);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(41, 20);
+            this.label15.Size = new System.Drawing.Size(89, 20);
             this.label15.TabIndex = 30;
-            this.label15.Text = "原价";
+            this.label15.Text = "原价（美元）";
+            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // pbMerchandise
             // 
@@ -611,7 +625,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Location = new System.Drawing.Point(4, 9);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(912, 685);
@@ -621,6 +635,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.Color.Transparent;
             this.tabPage2.Controls.Add(this.btnNewCustomer);
             this.tabPage2.Controls.Add(this.statusStrip2);
             this.tabPage2.Controls.Add(this.btnCustomerPic);
@@ -660,11 +675,10 @@
             this.tabPage2.Size = new System.Drawing.Size(920, 724);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "客户";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // btnNewCustomer
             // 
-            this.btnNewCustomer.Location = new System.Drawing.Point(530, 8);
+            this.btnNewCustomer.Location = new System.Drawing.Point(587, 10);
             this.btnNewCustomer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnNewCustomer.Name = "btnNewCustomer";
             this.btnNewCustomer.Size = new System.Drawing.Size(112, 35);
@@ -802,7 +816,7 @@
             this.txtZip.Location = new System.Drawing.Point(81, 468);
             this.txtZip.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtZip.Name = "txtZip";
-            this.txtZip.Size = new System.Drawing.Size(298, 26);
+            this.txtZip.Size = new System.Drawing.Size(361, 26);
             this.txtZip.TabIndex = 56;
             // 
             // txtIM
@@ -810,7 +824,7 @@
             this.txtIM.Location = new System.Drawing.Point(81, 426);
             this.txtIM.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtIM.Name = "txtIM";
-            this.txtIM.Size = new System.Drawing.Size(298, 26);
+            this.txtIM.Size = new System.Drawing.Size(361, 26);
             this.txtIM.TabIndex = 55;
             // 
             // txtPhone
@@ -818,7 +832,7 @@
             this.txtPhone.Location = new System.Drawing.Point(81, 385);
             this.txtPhone.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(298, 26);
+            this.txtPhone.Size = new System.Drawing.Size(361, 26);
             this.txtPhone.TabIndex = 54;
             // 
             // txtID
@@ -826,7 +840,7 @@
             this.txtID.Location = new System.Drawing.Point(81, 343);
             this.txtID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(298, 26);
+            this.txtID.Size = new System.Drawing.Size(361, 26);
             this.txtID.TabIndex = 53;
             // 
             // txtCountry
@@ -834,7 +848,7 @@
             this.txtCountry.Location = new System.Drawing.Point(81, 302);
             this.txtCountry.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtCountry.Name = "txtCountry";
-            this.txtCountry.Size = new System.Drawing.Size(298, 26);
+            this.txtCountry.Size = new System.Drawing.Size(361, 26);
             this.txtCountry.TabIndex = 52;
             // 
             // txtState
@@ -842,7 +856,7 @@
             this.txtState.Location = new System.Drawing.Point(81, 260);
             this.txtState.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtState.Name = "txtState";
-            this.txtState.Size = new System.Drawing.Size(298, 26);
+            this.txtState.Size = new System.Drawing.Size(361, 26);
             this.txtState.TabIndex = 51;
             // 
             // txtCity
@@ -850,7 +864,7 @@
             this.txtCity.Location = new System.Drawing.Point(81, 218);
             this.txtCity.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtCity.Name = "txtCity";
-            this.txtCity.Size = new System.Drawing.Size(298, 26);
+            this.txtCity.Size = new System.Drawing.Size(361, 26);
             this.txtCity.TabIndex = 50;
             // 
             // label20
@@ -916,7 +930,7 @@
             this.txtFirstName.Location = new System.Drawing.Point(81, 94);
             this.txtFirstName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtFirstName.Name = "txtFirstName";
-            this.txtFirstName.Size = new System.Drawing.Size(298, 26);
+            this.txtFirstName.Size = new System.Drawing.Size(361, 26);
             this.txtFirstName.TabIndex = 43;
             // 
             // label17
@@ -934,12 +948,12 @@
             this.txtLastName.Location = new System.Drawing.Point(81, 52);
             this.txtLastName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(298, 26);
+            this.txtLastName.Size = new System.Drawing.Size(361, 26);
             this.txtLastName.TabIndex = 42;
             // 
             // btnDeleteCustomer
             // 
-            this.btnDeleteCustomer.Location = new System.Drawing.Point(459, 9);
+            this.btnDeleteCustomer.Location = new System.Drawing.Point(519, 9);
             this.btnDeleteCustomer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnDeleteCustomer.Name = "btnDeleteCustomer";
             this.btnDeleteCustomer.Size = new System.Drawing.Size(60, 35);
@@ -965,13 +979,13 @@
             this.cbCustomerList.Location = new System.Drawing.Point(81, 9);
             this.cbCustomerList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbCustomerList.Name = "cbCustomerList";
-            this.cbCustomerList.Size = new System.Drawing.Size(298, 28);
+            this.cbCustomerList.Size = new System.Drawing.Size(361, 28);
             this.cbCustomerList.TabIndex = 38;
             this.cbCustomerList.SelectedIndexChanged += new System.EventHandler(this.cbCustomerList_SelectedIndexChanged);
             // 
             // btnSaveCustomer
             // 
-            this.btnSaveCustomer.Location = new System.Drawing.Point(390, 9);
+            this.btnSaveCustomer.Location = new System.Drawing.Point(450, 9);
             this.btnSaveCustomer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSaveCustomer.Name = "btnSaveCustomer";
             this.btnSaveCustomer.Size = new System.Drawing.Size(60, 35);
@@ -982,6 +996,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage3.Controls.Add(this.nudTax);
+            this.tabPage3.Controls.Add(this.label37);
             this.tabPage3.Controls.Add(this.statusStrip3);
             this.tabPage3.Controls.Add(this.btnNewMerchandise);
             this.tabPage3.Controls.Add(this.btnDeleteMerchandise);
@@ -1008,29 +1025,27 @@
             this.tabPage3.Size = new System.Drawing.Size(920, 724);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "商品";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // statusStrip3
             // 
             this.statusStrip3.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel3});
-            this.statusStrip3.Location = new System.Drawing.Point(0, 694);
+            this.statusStrip3.Location = new System.Drawing.Point(0, 702);
             this.statusStrip3.Name = "statusStrip3";
             this.statusStrip3.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip3.Size = new System.Drawing.Size(920, 30);
+            this.statusStrip3.Size = new System.Drawing.Size(920, 22);
             this.statusStrip3.TabIndex = 84;
             this.statusStrip3.Text = "statusStrip3";
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(179, 25);
-            this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(0, 23);
             // 
             // btnNewMerchandise
             // 
-            this.btnNewMerchandise.Location = new System.Drawing.Point(548, 17);
+            this.btnNewMerchandise.Location = new System.Drawing.Point(545, 19);
             this.btnNewMerchandise.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnNewMerchandise.Name = "btnNewMerchandise";
             this.btnNewMerchandise.Size = new System.Drawing.Size(112, 35);
@@ -1087,6 +1102,11 @@
             this.nudWeight.DecimalPlaces = 2;
             this.nudWeight.Location = new System.Drawing.Point(94, 192);
             this.nudWeight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nudWeight.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
             this.nudWeight.Name = "nudWeight";
             this.nudWeight.Size = new System.Drawing.Size(300, 26);
             this.nudWeight.TabIndex = 78;
@@ -1096,6 +1116,11 @@
             this.nudMerchandisePrice.DecimalPlaces = 2;
             this.nudMerchandisePrice.Location = new System.Drawing.Point(94, 151);
             this.nudMerchandisePrice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nudMerchandisePrice.Maximum = new decimal(new int[] {
+            1316134911,
+            2328,
+            0,
+            0});
             this.nudMerchandisePrice.Name = "nudMerchandisePrice";
             this.nudMerchandisePrice.Size = new System.Drawing.Size(300, 26);
             this.nudMerchandisePrice.TabIndex = 77;
@@ -1108,6 +1133,7 @@
             this.pbMerchandisePic.Size = new System.Drawing.Size(501, 272);
             this.pbMerchandisePic.TabIndex = 76;
             this.pbMerchandisePic.TabStop = false;
+            this.pbMerchandisePic.Click += new System.EventHandler(this.pbMerchandisePic_Click);
             // 
             // label30
             // 
@@ -1145,18 +1171,18 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(39, 162);
+            this.label33.Location = new System.Drawing.Point(26, 157);
             this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(41, 20);
+            this.label33.Size = new System.Drawing.Size(57, 20);
             this.label33.TabIndex = 72;
-            this.label33.Text = "卖价";
+            this.label33.Text = "成本价";
             this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(42, 203);
+            this.label34.Location = new System.Drawing.Point(42, 198);
             this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(41, 20);
@@ -1226,6 +1252,31 @@
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
             // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(42, 233);
+            this.label37.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(41, 20);
+            this.label37.TabIndex = 85;
+            this.label37.Text = "税率";
+            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // nudTax
+            // 
+            this.nudTax.DecimalPlaces = 2;
+            this.nudTax.Location = new System.Drawing.Point(94, 227);
+            this.nudTax.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nudTax.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudTax.Name = "nudTax";
+            this.nudTax.Size = new System.Drawing.Size(300, 26);
+            this.nudTax.TabIndex = 86;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1260,6 +1311,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMerchandisePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMerchandisePic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTax)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1368,6 +1420,8 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label lblProfit;
         private System.Windows.Forms.Label lblExchangeRate;
+        private System.Windows.Forms.NumericUpDown nudTax;
+        private System.Windows.Forms.Label label37;
     }
 }
 

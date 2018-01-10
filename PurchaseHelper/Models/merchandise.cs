@@ -18,12 +18,16 @@ namespace PurchaseHelper.Models
         [DataMapper("USDPrice")]
         public decimal USDPrice { get; set; }
         [DataMapper("weight")]
-        public double weight { get; set; }     
+        public double weight { get; set; }
+        [DataMapper("Tax")]
+        public decimal Tax { get; set; }
         public string MerchandiseName
         {
             get
             {
-                return MerchandiseID.HasValue ? MerchandiseID.Value + " : " + Name : "";
+                string name = MerchandiseID.HasValue ? MerchandiseID.Value + " : " + Name : "";
+                name += string.IsNullOrWhiteSpace(Store) ? "" : "(" + Store + ")";
+                return name;
             }
         }
     }
