@@ -72,56 +72,13 @@ namespace Daigou
             }
         }
 
-        private void LoadOrderItemList(List<OrderItemModel> orderItems)
-        {
-            cbOrderItem.DataSource = null;
-            cbOrderItem.DisplayMember = "OrderItemName";
-            cbOrderItem.ValueMember = "OrderItemID";
-            cbOrderItem.DataSource = orderItems;
-            if (orderItems.Count <= 1)
-                ClearMerchandise();
-        }
-
-        private void LoadOrderItemList()
-        {
-            if (comboBoxOrder.SelectedValue != null && (int)comboBoxOrder.SelectedValue > 0)
-            {
-                cbOrderItem.DataSource = null;
-                cbOrderItem.DisplayMember = "OrderItemName";
-                cbOrderItem.ValueMember = "OrderItemID";
-                OrderItemBO orderItemBo = new OrderItemBO(_connString);
-                List<OrderItemModel> orderItems = orderItemBo.GetList("OrderID=" + comboBoxOrder.SelectedValue.ToString(), true);
-                cbOrderItem.DataSource = orderItems;
-                if (orderItems.Count <= 1)
-                    ClearMerchandise();
-            }
-        }
-
-        private void LoadOrderItemDetail()
-        {
-            if (cbOrderItem.SelectedValue != null && ((int)cbOrderItem.SelectedValue) > 0)
-            {
-                OrderItemBO orderItemBo = new OrderItemBO(_connString);
-                OrderItemModel orderItem = orderItemBo.GetByID((int)cbOrderItem.SelectedValue);
-                cbMerchandise.SelectedValue = orderItem.MerchandiseID;
-                nudNumer.Value = orderItem.Number;
-                nudDiscountPercent.Value = orderItem.DiscountPercent.HasValue ? (decimal)orderItem.DiscountPercent.Value : 0;
-                nudDiscountValue.Value = orderItem.DiscountValue.HasValue ? (decimal)orderItem.DiscountValue.Value : 0;
-                txtOriginalPrice.Text = orderItem.Merchandise.USDPrice.ToString();
-            }
-            else
-            {
-                ClearMerchandise();
-            }            
-        }
-
         private void ClearMerchandise()
         {
             cbMerchandise.SelectedIndex = -1;
             nudNumer.Value = 0;
             nudDiscountPercent.Value = 0;
             nudDiscountValue.Value = 0;
-            txtOriginalPrice.Text = "";
+            nudPurchasePrice.Value = 0;
             pbMerchandise.Image = null;
         }
 
@@ -174,14 +131,18 @@ namespace Daigou
                 cbStatus.SelectedIndex = order.OrderStatus;
                 nudSalePrice.Value = order.ChargedPrice.HasValue ? (decimal)order.ChargedPrice.Value : 0;
                 nudShipCost.Value = order.ShippingCost.HasValue ? (decimal)order.ShippingCost.Value : 0;
-                lblProfit.Text = order.Profit.ToString();
+                lblProfit.Text = order.Profit.Value.ToString("f2");
+                nudPurchasePrice.Value = order.PurchasePrice.HasValue ? order.PurchasePrice.Value : order.Merchandise.USDPrice * (1 + order.Merchandise.Tax / 100);
+                cbMerchandise.SelectedValue = order.MerchandiseID;
+                nudNumer.Value = order.Number;
+                nudDiscountPercent.Value = order.DiscountPercent.HasValue ? order.DiscountPercent.Value : 0;
+                nudDiscountValue.Value = order.DiscountValue.HasValue ? order.DiscountValue.Value : 0;
                 if (order.Profit.Value >= 0)
                     lblProfit.ForeColor = Color.Green;
                 else
                     lblProfit.ForeColor = Color.Red;
-                lblExchangeRate.Text = order.ExchangeRate.ToString();
+                nudExchangeRate.Value = order.ExchangeRate.HasValue ? order.ExchangeRate.Value : order.RealTimeExchangeRate;
                 txtShippingNumber.Text = order.ShipmentNumber;
-                LoadOrderItemList(order.OrderItems);
             }
         }
 
@@ -191,7 +152,7 @@ namespace Daigou
             {
                 MerchandiseBO merchandiseBo = new MerchandiseBO(_connString);
                 MerchandiseModel merchandise = merchandiseBo.GetByID((int)cbMerchandise.SelectedValue);
-                txtOriginalPrice.Text = merchandise.USDPrice.ToString();
+                nudPurchasePrice.Value = merchandise.USDPrice * (1 + merchandise.Tax / 100);
                 if (merchandise.Picture != null)
                 {
                     Bitmap img = ByteToImage(merchandise.Picture);
@@ -244,18 +205,16 @@ namespace Daigou
             nudSalePrice.Visible = enable;
             nudShipCost.Visible = enable;
             txtShippingNumber.Visible = enable;
-            cbOrderItem.Visible = enable;
             lblProfit.Visible = enable;
-            lblExchangeRate.Visible = enable;
-            btnSaveItem.Visible = enable;
-            btnDeleteItem.Visible = enable;
+            nudPurchasePrice.Visible = enable;
+            nudDiscountValue.Visible = enable;
+            nudDiscountPercent.Visible = enable;
+            cbMerchandise.Visible = enable;
+            nudNumer.Visible = enable;
+            nudExchangeRate.Visible = enable;
+            pbMerchandise.Visible = enable;
             if (!enable)
                 ClearMerchandise();
-        }
-
-        private void cbOrderItem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LoadOrderItemDetail();
         }
 
         private void cbMerchandise_SelectedIndexChanged(object sender, EventArgs e)
@@ -291,8 +250,6 @@ namespace Daigou
             }
             if (comboBoxOrder.SelectedValue != null)
                 orderItem.OrderID = (int)comboBoxOrder.SelectedValue;
-            if (cbOrderItem.SelectedValue != null)
-                orderItem.OrderItemID = (int)cbOrderItem.SelectedValue;
             return orderItem;
         }
 
@@ -312,6 +269,12 @@ namespace Daigou
             if (nudShipCost.Value >= 0)
                 order.ShippingCost = nudShipCost.Value;
             order.ShipmentNumber = txtShippingNumber.Text;
+            order.ExchangeRate = nudExchangeRate.Value;
+            order.DiscountPercent = nudDiscountPercent.Value;
+            order.DiscountValue = nudDiscountValue.Value;
+            order.PurchasePrice = nudPurchasePrice.Value;
+            order.MerchandiseID = (int)cbMerchandise.SelectedValue;
+            order.Number = (int)nudNumer.Value;
             return order;
         }
         private CustomerModel GetCustomerContract()
@@ -359,65 +322,6 @@ namespace Daigou
             }
 
             return merchandise;
-        }
-
-        private void btnSaveItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = "Saving item...";
-            OrderItemBO orderItemBo = new OrderItemBO(_connString);
-            int pk = orderItemBo.Save(GetOrderItemContract());
-            if(orderItemBo.ValidationErrors.Count > 0)
-            {
-                string errs = "";
-                foreach (string error in orderItemBo.ValidationErrors)
-                {
-                    errs += error + Environment.NewLine;
-                }
-                MessageBox.Show(errs);
-            }
-            else
-            {
-                LoadOrderItemList();
-                cbOrderItem.SelectedValue = pk;
-            }
-            toolStripStatusLabel1.Text = "";
-        }
-
-        private void btnDeleteItem_Click(object sender, EventArgs e)
-        {
-            if (cbOrderItem.SelectedValue != null && (int)cbOrderItem.SelectedValue > 0)
-            {
-                toolStripStatusLabel1.Text = "Deleting item...";
-                OrderItemBO orderItemBo = new OrderItemBO(_connString);
-                bool deleted = orderItemBo.Delete((int)cbOrderItem.SelectedValue);
-                if (!deleted)
-                {
-                    if (orderItemBo.ValidationErrors.Count > 0)
-                    {
-                        string errs = "";
-                        foreach (string error in orderItemBo.ValidationErrors)
-                        {
-                            errs += error + Environment.NewLine;
-                        }
-                        MessageBox.Show(errs);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error Occurred");
-                    }
-                }
-                else
-                {
-                    LoadOrderItemList();
-                    ClearMerchandise();
-                    MessageBox.Show("Delete Complete");
-                }
-                toolStripStatusLabel1.Text = "";
-            }
-            else
-            {
-                MessageBox.Show("Please choose an order item first");
-            }
         }
 
         private void btnNewOrder_Click(object sender, EventArgs e)

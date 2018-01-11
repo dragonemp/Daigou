@@ -69,12 +69,12 @@ namespace DaigouTest
             contract.OrderDate = DateTime.Parse("1/5/2015");
             contract.ShippingCost = (decimal)12.45;
             contract.ChargedPrice = (decimal)52.12;
-            contract.OrderItems = new System.Collections.Generic.List<OrderItemModel>();
+            //contract.OrderItems = new System.Collections.Generic.List<OrderItemModel>();
             OrderItemModel item = new OrderItemModel();
             item.MerchandiseID = 1;
             item.Number = 3;
             item.DiscountPercent = (decimal)1.5;
-            contract.OrderItems.Add(item);
+            //contract.OrderItems.Add(item);
             bo.Save(contract);
         }
 

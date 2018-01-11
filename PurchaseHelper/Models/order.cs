@@ -33,8 +33,21 @@ namespace PurchaseHelper.Models
         public decimal? ShippingCost { get; set; }
         [DataMapper("ChargedPrice")]
         public decimal? ChargedPrice { get; set; }
+        [DataMapper("MerchandiseID")]
+        public int MerchandiseID { get; set; }
+        public MerchandiseModel Merchandise { get; set; }
+        [DataMapper("Number")]
+        public int Number { get; set; }
+        [DataMapper("DiscountPercent")]
+        public decimal? DiscountPercent { get; set; }
+        [DataMapper("DiscountValue")]
+        public decimal? DiscountValue { get; set; }
+        [DataMapper("PurchasePrice")]
+        public decimal? PurchasePrice { get; set; }
+        [DataMapper("ExchangeRate")]
+        public decimal? ExchangeRate { get; set; }
         public decimal? Profit { get; set; }
-        public decimal ExchangeRate
+        public decimal RealTimeExchangeRate
         {
             get
             {
@@ -43,7 +56,7 @@ namespace PurchaseHelper.Models
                 return exchangeRate;
             }
         }
-        public List<OrderItemModel> OrderItems { get; set; }
+        //public List<OrderItemModel> OrderItems { get; set; }
         public string OrderName
         {
             get
