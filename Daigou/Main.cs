@@ -6,6 +6,8 @@ using System.IO;
 using PurchaseHelper.BusinessObjects;
 using PurchaseHelper.Models;
 using System.Windows.Forms;
+using System.Linq;
+using System.ComponentModel;
 
 namespace Daigou
 {
@@ -25,13 +27,16 @@ namespace Daigou
         protected void LoadCustomerList()
         {
             CustomerBO customerBo = new CustomerBO(_connString);
-            List<CustomerModel> customers = customerBo.GetList("");
+            List<CustomerModel> customers = customerBo.GetList("", true);
             comboBoxCustomer.DisplayMember = "Name";
             comboBoxCustomer.ValueMember = "CustomerId";
             comboBoxCustomer.DataSource = customers;
             cbCustomerList.DisplayMember = "Name";
             cbCustomerList.ValueMember = "CustomerId";
             cbCustomerList.DataSource = customers;
+            cbClientSearch.DisplayMember = "Name";
+            cbClientSearch.ValueMember = "CustomerId";
+            cbClientSearch.DataSource = customers;
         }
 
         private void LoadStatusList()
@@ -458,41 +463,19 @@ namespace Daigou
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            toolStripStatusLabel2.Text = "Creating...";
-            CustomerModel customer = new CustomerModel();
-            customer.FirstName = " ";
-            customer.LastName = " ";
-            customer.City = " ";
-            customer.State = " ";
-            customer.Country = " ";
-            customer.Phone = " ";
-            customer.Zip = " ";
-            customer.Address1 = " ";
-            CustomerBO customerBo = new CustomerBO(_connString);
-            int pk = customerBo.Save(customer);
-            if (pk <= 0)
-            {
-                if (customerBo.ValidationErrors.Count > 0)
-                {
-                    string errs = "";
-                    foreach (string error in customerBo.ValidationErrors)
-                    {
-                        errs += error + Environment.NewLine;
-                    }
-                    MessageBox.Show(errs);
-                }
-                else
-                {
-                    MessageBox.Show("Error Occurred");
-                }
-            }
-            else
-            {
-                LoadCustomerList();
-                cbCustomerList.SelectedValue = pk;
-                MessageBox.Show("Save Complete");
-            }
-            toolStripStatusLabel2.Text = "";
+            cbCustomerList.SelectedIndex = 0;
+            txtFirstName.Text = "";
+            txtLastName.Text = "";
+            txtCity.Text = "";
+            txtState.Text = "";
+            txtCountry.Text = "";
+            txtPhone.Text = "";
+            txtZip.Text = "";
+            txtAddress1.Text = "";
+            txtAddress2.Text = "";
+            txtIM.Text = "";
+            txtID.Text = "";
+            txtCustomerPic.Text = "";
         }
 
         private void btnDeleteCustomer_Click(object sender, EventArgs e)
@@ -652,6 +635,160 @@ namespace Daigou
         private void label15_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            DateTime start = dtStartSearch.Value;
+            DateTime end = dtEndSearch.Value;
+            int customerId = -1;
+            if (cbClientSearch.SelectedIndex > 0)
+                customerId = (int)cbClientSearch.SelectedValue;
+            string filter = "OrderDate>='" + start.ToString() + "' AND OrderDate<='" + end.ToString() + "'";
+            if (customerId > 0)
+                filter += " AND CustomerID=" + customerId;
+            OrderBO bo = new OrderBO(_connString);
+            List<OrderSearchModel> result = bo.GetList(filter).Select(x=> new OrderSearchModel() { OrderName = x.OrderName, CustomerName = x.CustomerName, MerchandiseName = x.MerchandiseName, Number = x.Number, OrderDate = x.OrderDate, Profit = x.Profit, ShipmentDate = x.ShipmentDate }).ToList();
+            SortableBindingList<OrderSearchModel> resultSortable = new SortableBindingList<OrderSearchModel>(result);
+            int totalCount = result.Count();
+            decimal totalProfit = 0;
+            foreach(OrderSearchModel order in result)
+            {
+                totalProfit += order.Profit.HasValue ? order.Profit.Value : 0;
+            }
+            dgSearch.DataSource = resultSortable;
+            dgSearch.Refresh();
+            lblTotalCount.Text = totalCount.ToString();
+            lblTotalProfit.Text = totalProfit.ToString("f2");
+            if (totalProfit > 0)
+                lblTotalProfit.ForeColor = Color.Green;
+            else
+                lblTotalProfit.ForeColor = Color.Red;
+        }
+    }
+
+    /// <summary>
+    /// Provides a generic collection that supports data binding and additionally supports sorting.
+    /// See http://msdn.microsoft.com/en-us/library/ms993236.aspx
+    /// If the elements are IComparable it uses that; otherwise compares the ToString()
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    public class SortableBindingList<T> : BindingList<T> where T : class
+    {
+        private bool _isSorted;
+        private ListSortDirection _sortDirection = ListSortDirection.Ascending;
+        private PropertyDescriptor _sortProperty;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortableBindingList{T}"/> class.
+        /// </summary>
+        public SortableBindingList()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortableBindingList{T}"/> class.
+        /// </summary>
+        /// <param name="list">An <see cref="T:System.Collections.Generic.IList`1" /> of items to be contained in the <see cref="T:System.ComponentModel.BindingList`1" />.</param>
+        public SortableBindingList(IList<T> list)
+            : base(list)
+        {
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the list supports sorting.
+        /// </summary>
+        protected override bool SupportsSortingCore
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the list is sorted.
+        /// </summary>
+        protected override bool IsSortedCore
+        {
+            get { return _isSorted; }
+        }
+
+        /// <summary>
+        /// Gets the direction the list is sorted.
+        /// </summary>
+        protected override ListSortDirection SortDirectionCore
+        {
+            get { return _sortDirection; }
+        }
+
+        /// <summary>
+        /// Gets the property descriptor that is used for sorting the list if sorting is implemented in a derived class; otherwise, returns null
+        /// </summary>
+        protected override PropertyDescriptor SortPropertyCore
+        {
+            get { return _sortProperty; }
+        }
+
+        /// <summary>
+        /// Removes any sort applied with ApplySortCore if sorting is implemented
+        /// </summary>
+        protected override void RemoveSortCore()
+        {
+            _sortDirection = ListSortDirection.Ascending;
+            _sortProperty = null;
+            _isSorted = false; //thanks Luca
+        }
+
+        /// <summary>
+        /// Sorts the items if overridden in a derived class
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <param name="direction"></param>
+        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
+        {
+            _sortProperty = prop;
+            _sortDirection = direction;
+
+            List<T> list = Items as List<T>;
+            if (list == null) return;
+
+            list.Sort(Compare);
+
+            _isSorted = true;
+            //fire an event that the list has been changed.
+            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+        }
+
+
+        private int Compare(T lhs, T rhs)
+        {
+            var result = OnComparison(lhs, rhs);
+            //invert if descending
+            if (_sortDirection == ListSortDirection.Descending)
+                result = -result;
+            return result;
+        }
+
+        private int OnComparison(T lhs, T rhs)
+        {
+            object lhsValue = lhs == null ? null : _sortProperty.GetValue(lhs);
+            object rhsValue = rhs == null ? null : _sortProperty.GetValue(rhs);
+            if (lhsValue == null)
+            {
+                return (rhsValue == null) ? 0 : -1; //nulls are equal
+            }
+            if (rhsValue == null)
+            {
+                return 1; //first has value, second doesn't
+            }
+            if (lhsValue is IComparable)
+            {
+                return ((IComparable)lhsValue).CompareTo(rhsValue);
+            }
+            if (lhsValue.Equals(rhsValue))
+            {
+                return 0; //both are the same
+            }
+            //not comparable, compare ToString
+            return lhsValue.ToString().CompareTo(rhsValue.ToString());
         }
     }
 }

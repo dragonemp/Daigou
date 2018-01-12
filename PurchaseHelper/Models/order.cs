@@ -64,6 +64,35 @@ namespace PurchaseHelper.Models
                 return OrderID.HasValue ? OrderID.Value + " : " + (OrderStatus)OrderStatus : "";
             }
         }
+        public string CustomerName
+        {
+            get
+            {
+                return Customer != null ? Customer.Name : "";
+            }
+        }
+
+        public string MerchandiseName
+        {
+            get
+            {
+                return Merchandise != null ? Merchandise.MerchandiseName : "";
+            }
+        }
+    }
+
+    public class OrderSearchModel
+    {
+        public DateTime OrderDate { get; set; }
+        public DateTime? ShipmentDate { get; set; }
+        public int Number { get; set; }
+
+        public decimal? Profit { get; set; }
+
+        public string OrderName { get; set; }
+        public string CustomerName{ get; set; }
+
+        public string MerchandiseName{ get; set; }
     }
 
     public class OrderItemModel
