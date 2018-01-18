@@ -726,6 +726,7 @@ namespace Daigou
             string pdfFile = path + Path.GetRandomFileName() + ".pdf";
             report.Load(rptFile);
             report.SetDataSource(FillReportData(orders));
+            report.Refresh();
             report.ExportToDisk(ExportFormatType.PortableDocFormat, pdfFile);
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -750,11 +751,11 @@ namespace Daigou
             List<MerchandiseModel> merchandises = new List<MerchandiseModel>();
             foreach(OrderModel order in orders)
             {
-                if(customers.Select(x=>x.CustomerId == order.CustomerID).Count() == 0)
+                if(!customers.Any(x=>x.CustomerId == order.CustomerID))
                 {
                     customers.Add(order.Customer);
                 }
-                if(merchandises.Select(x=>x.MerchandiseID == order.MerchandiseID).Count() == 0)
+                if(!merchandises.Any(x=>x.MerchandiseID == order.MerchandiseID))
                 {
                     merchandises.Add(order.Merchandise);
                 }
