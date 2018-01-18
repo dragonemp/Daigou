@@ -127,6 +127,13 @@
             this.label29 = new System.Windows.Forms.Label();
             this.cbMerchandiseList = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnPrint = new System.Windows.Forms.Button();
+            this.lblTotalShipping = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.lblTotalCost = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.lblTotalIncome = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
             this.lblTotalProfit = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
             this.lblTotalCount = new System.Windows.Forms.Label();
@@ -1278,6 +1285,13 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.btnPrint);
+            this.tabPage4.Controls.Add(this.lblTotalShipping);
+            this.tabPage4.Controls.Add(this.label44);
+            this.tabPage4.Controls.Add(this.lblTotalCost);
+            this.tabPage4.Controls.Add(this.label43);
+            this.tabPage4.Controls.Add(this.lblTotalIncome);
+            this.tabPage4.Controls.Add(this.label41);
             this.tabPage4.Controls.Add(this.lblTotalProfit);
             this.tabPage4.Controls.Add(this.label42);
             this.tabPage4.Controls.Add(this.lblTotalCount);
@@ -1298,9 +1312,84 @@
             this.tabPage4.Text = "报表";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(571, 70);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(75, 31);
+            this.btnPrint.TabIndex = 53;
+            this.btnPrint.Text = "打印";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
+            // lblTotalShipping
+            // 
+            this.lblTotalShipping.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblTotalShipping.AutoSize = true;
+            this.lblTotalShipping.Location = new System.Drawing.Point(819, 684);
+            this.lblTotalShipping.Name = "lblTotalShipping";
+            this.lblTotalShipping.Size = new System.Drawing.Size(18, 20);
+            this.lblTotalShipping.TabIndex = 52;
+            this.lblTotalShipping.Text = "0";
+            // 
+            // label44
+            // 
+            this.label44.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(756, 683);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(57, 20);
+            this.label44.TabIndex = 51;
+            this.label44.Text = "总运费";
+            // 
+            // lblTotalCost
+            // 
+            this.lblTotalCost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotalCost.AutoSize = true;
+            this.lblTotalCost.Location = new System.Drawing.Point(567, 684);
+            this.lblTotalCost.Name = "lblTotalCost";
+            this.lblTotalCost.Size = new System.Drawing.Size(18, 20);
+            this.lblTotalCost.TabIndex = 50;
+            this.lblTotalCost.Text = "0";
+            // 
+            // label43
+            // 
+            this.label43.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(504, 684);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(57, 20);
+            this.label43.TabIndex = 49;
+            this.label43.Text = "总买价";
+            // 
+            // lblTotalIncome
+            // 
+            this.lblTotalIncome.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotalIncome.AutoSize = true;
+            this.lblTotalIncome.Location = new System.Drawing.Point(324, 684);
+            this.lblTotalIncome.Name = "lblTotalIncome";
+            this.lblTotalIncome.Size = new System.Drawing.Size(18, 20);
+            this.lblTotalIncome.TabIndex = 48;
+            this.lblTotalIncome.Text = "0";
+            // 
+            // label41
+            // 
+            this.label41.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(261, 684);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(57, 20);
+            this.label41.TabIndex = 47;
+            this.label41.Text = "总卖价";
+            // 
             // lblTotalProfit
             // 
-            this.lblTotalProfit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblTotalProfit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalProfit.AutoSize = true;
             this.lblTotalProfit.Location = new System.Drawing.Point(77, 683);
             this.lblTotalProfit.Name = "lblTotalProfit";
@@ -1310,7 +1399,8 @@
             // 
             // label42
             // 
-            this.label42.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label42.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label42.AutoSize = true;
             this.label42.Location = new System.Drawing.Point(13, 683);
             this.label42.Name = "label42";
@@ -1402,6 +1492,8 @@
             // 
             // dgSearch
             // 
+            this.dgSearch.AllowUserToAddRows = false;
+            this.dgSearch.AllowUserToDeleteRows = false;
             this.dgSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1578,6 +1670,13 @@
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label lblTotalCount;
         private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label lblTotalShipping;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label lblTotalCost;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label lblTotalIncome;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Button btnPrint;
     }
 }
 

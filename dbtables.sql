@@ -1,7 +1,4 @@
-﻿USE [Daigou]
-GO
-
-/****** Object:  Table [dbo].[Customer]    Script Date: 1/8/2018 4:08:30 PM ******/
+﻿/****** Object:  Table [dbo].[Customer]    Script Date: 1/13/2018 10:52:19 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,11 +22,11 @@ CREATE TABLE [dbo].[Customer](
  CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
 (
 	[CustomerID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Merchandise]    Script Date: 1/8/2018 4:08:30 PM ******/
+/****** Object:  Table [dbo].[Merchandise]    Script Date: 1/13/2018 10:52:19 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -44,14 +41,15 @@ CREATE TABLE [dbo].[Merchandise](
 	[weight] [float] NULL,
 	[MerchandiseID] [int] IDENTITY(1,1) NOT NULL,
 	[Picture] [image] NULL,
+	[Tax] [decimal](18, 2) NULL,
  CONSTRAINT [PK_Merchandise] PRIMARY KEY CLUSTERED 
 (
 	[MerchandiseID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[OrderItem]    Script Date: 1/8/2018 4:08:30 PM ******/
+/****** Object:  Table [dbo].[OrderItem]    Script Date: 1/13/2018 10:52:20 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -68,11 +66,11 @@ CREATE TABLE [dbo].[OrderItem](
  CONSTRAINT [PK_OrderItem] PRIMARY KEY CLUSTERED 
 (
 	[OrderItemID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Orders]    Script Date: 1/8/2018 4:08:30 PM ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 1/13/2018 10:52:20 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -89,10 +87,16 @@ CREATE TABLE [dbo].[Orders](
 	[OrderStatus] [int] NULL,
 	[ShippingCost] [decimal](18, 2) NULL,
 	[ChargedPrice] [decimal](18, 2) NULL,
+	[MerchandiseID] [int] NULL,
+	[Number] [int] NULL,
+	[DiscountPercent] [decimal](18, 2) NULL,
+	[DiscountValue] [decimal](18, 2) NULL,
+	[PurchasePrice] [decimal](18, 2) NULL,
+	[ExchangeRate] [decimal](18, 2) NULL,
  CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED 
 (
 	[OrderID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -116,6 +120,13 @@ REFERENCES [dbo].[Customer] ([CustomerID])
 GO
 
 ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Customer]
+GO
+
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_Merchandise] FOREIGN KEY([MerchandiseID])
+REFERENCES [dbo].[Merchandise] ([MerchandiseID])
+GO
+
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Merchandise]
 GO
 
 

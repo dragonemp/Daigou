@@ -68,7 +68,7 @@ namespace PurchaseHelper.Models
         {
             get
             {
-                return Customer != null ? Customer.Name : "";
+                return Customer != null ? Customer.FullName : "";
             }
         }
 
@@ -76,23 +76,24 @@ namespace PurchaseHelper.Models
         {
             get
             {
-                return Merchandise != null ? Merchandise.MerchandiseName : "";
+                return Merchandise != null ? Merchandise.Name : "";
             }
         }
     }
 
     public class OrderSearchModel
     {
-        public DateTime OrderDate { get; set; }
-        public DateTime? ShipmentDate { get; set; }
-        public int Number { get; set; }
-
-        public decimal? Profit { get; set; }
-
-        public string OrderName { get; set; }
-        public string CustomerName{ get; set; }
-
-        public string MerchandiseName{ get; set; }
+        public int 编号 { get; set; }
+        public string 客户 { get; set; }
+        public string 商品 { get; set; }
+        public int 数量 { get; set; }
+        public string 状态 { get; set; }
+        public DateTime 订货日期 { get; set; }
+        public DateTime? 发货日期 { get; set; }
+        public decimal? 卖价 { get; set; }
+        public decimal? 买价 { get; set; }
+        public decimal? 运费 { get; set; }
+        public decimal? 利润 { get; set; }
     }
 
     public class OrderItemModel

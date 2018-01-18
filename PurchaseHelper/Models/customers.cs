@@ -39,5 +39,14 @@ namespace PurchaseHelper.Models
                 return name;
             }
         }
+        public string FullName
+        {
+            get
+            {
+                string name = LastName + "" + FirstName;
+                name += !string.IsNullOrWhiteSpace(IM) ? "(" + IM + ")" : "";
+                return name;
+            }
+        }
     }
 }

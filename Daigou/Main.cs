@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.Diagnostics;
 using System.IO;
 using PurchaseHelper.BusinessObjects;
 using PurchaseHelper.Models;
 using System.Windows.Forms;
 using System.Linq;
 using System.ComponentModel;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using System.Data;
 
 namespace Daigou
 {
@@ -136,16 +140,19 @@ namespace Daigou
                 cbStatus.SelectedIndex = order.OrderStatus;
                 nudSalePrice.Value = order.ChargedPrice.HasValue ? (decimal)order.ChargedPrice.Value : 0;
                 nudShipCost.Value = order.ShippingCost.HasValue ? (decimal)order.ShippingCost.Value : 0;
-                lblProfit.Text = order.Profit.Value.ToString("f2");
-                nudPurchasePrice.Value = order.PurchasePrice.HasValue ? order.PurchasePrice.Value : order.Merchandise.USDPrice * (1 + order.Merchandise.Tax / 100);
+                lblProfit.Text = order.Profit.HasValue ? order.Profit.Value.ToString("f2") : "0";
+                nudPurchasePrice.Value = order.PurchasePrice.HasValue ? order.PurchasePrice.Value : order.Merchandise != null ? order.Merchandise.USDPrice * (1 + order.Merchandise.Tax / 100) : 0;
                 cbMerchandise.SelectedValue = order.MerchandiseID;
                 nudNumer.Value = order.Number;
                 nudDiscountPercent.Value = order.DiscountPercent.HasValue ? order.DiscountPercent.Value : 0;
                 nudDiscountValue.Value = order.DiscountValue.HasValue ? order.DiscountValue.Value : 0;
-                if (order.Profit.Value >= 0)
-                    lblProfit.ForeColor = Color.Green;
-                else
-                    lblProfit.ForeColor = Color.Red;
+                if (order.Profit.HasValue)
+                {
+                    if (order.Profit.Value >= 0)
+                        lblProfit.ForeColor = Color.Green;
+                    else
+                        lblProfit.ForeColor = Color.Red;
+                }
                 nudExchangeRate.Value = order.ExchangeRate.HasValue ? order.ExchangeRate.Value : order.RealTimeExchangeRate;
                 txtShippingNumber.Text = order.ShipmentNumber;
             }
@@ -225,6 +232,7 @@ namespace Daigou
         private void cbMerchandise_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadMerchandiseDetail();
+            txtMerchandisePic.Text = "";
         }
 
         private Bitmap ByteToImage(byte[] blob)
@@ -338,6 +346,7 @@ namespace Daigou
                 order.CustomerID = (int)comboBoxCustomer.SelectedValue;
                 order.OrderDate = DateTime.Now;
                 order.OrderStatus = (int)OrderStatus.Pending;
+                order.MerchandiseID = 1;
                 OrderBO orderBo = new OrderBO(_connString);
                 int pk = orderBo.Save(order);
                 LoadOrderList();
@@ -352,37 +361,42 @@ namespace Daigou
 
         private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
-            if(comboBoxOrder.SelectedValue != null && (int)comboBoxOrder.SelectedValue > 0)
+            var confirmDelete = MessageBox.Show("Are you sure to delete this order?", "Confirm Delete!", MessageBoxButtons.YesNo);
+
+            if (confirmDelete == DialogResult.Yes)
             {
-                toolStripStatusLabel1.Text = "Deleting...";
-                OrderBO orderBo = new OrderBO(_connString);
-                bool deleted = orderBo.Delete((int)comboBoxOrder.SelectedValue);
-                if (!deleted)
+                if (comboBoxOrder.SelectedValue != null && (int)comboBoxOrder.SelectedValue > 0)
                 {
-                    if (orderBo.ValidationErrors.Count > 0)
+                    toolStripStatusLabel1.Text = "Deleting...";
+                    OrderBO orderBo = new OrderBO(_connString);
+                    bool deleted = orderBo.Delete((int)comboBoxOrder.SelectedValue);
+                    if (!deleted)
                     {
-                        string errs = "";
-                        foreach (string error in orderBo.ValidationErrors)
+                        if (orderBo.ValidationErrors.Count > 0)
                         {
-                            errs += error + Environment.NewLine;
+                            string errs = "";
+                            foreach (string error in orderBo.ValidationErrors)
+                            {
+                                errs += error + Environment.NewLine;
+                            }
+                            MessageBox.Show(errs);
                         }
-                        MessageBox.Show(errs);
+                        else
+                        {
+                            MessageBox.Show("Error Occurred");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Error Occurred");
+                        LoadOrderList();
+                        MessageBox.Show("Save Complete");
                     }
+                    toolStripStatusLabel1.Text = "";
                 }
                 else
                 {
-                    LoadOrderList();
-                    MessageBox.Show("Save Complete");
+                    MessageBox.Show("Please choose an order first");
                 }
-                toolStripStatusLabel1.Text = "";
-            }
-            else
-            {
-                MessageBox.Show("Please choose an order first");
             }
         }
 
@@ -480,37 +494,42 @@ namespace Daigou
 
         private void btnDeleteCustomer_Click(object sender, EventArgs e)
         {
-            if(cbCustomerList.SelectedValue != null && (int)cbCustomerList.SelectedValue > 0)
+            var confirmDelete = MessageBox.Show("Are you sure to delete this customer?", "Confirm Delete!", MessageBoxButtons.YesNo);
+
+            if (confirmDelete == DialogResult.Yes)
             {
-                toolStripStatusLabel2.Text = "Deleting...";
-                CustomerBO customerBo = new CustomerBO(_connString);
-                bool deleted = customerBo.Delete((int)cbCustomerList.SelectedValue);
-                if (!deleted)
+                if (cbCustomerList.SelectedValue != null && (int)cbCustomerList.SelectedValue > 0)
                 {
-                    if (customerBo.ValidationErrors.Count > 0)
+                    toolStripStatusLabel2.Text = "Deleting...";
+                    CustomerBO customerBo = new CustomerBO(_connString);
+                    bool deleted = customerBo.Delete((int)cbCustomerList.SelectedValue);
+                    if (!deleted)
                     {
-                        string errs = "";
-                        foreach (string error in customerBo.ValidationErrors)
+                        if (customerBo.ValidationErrors.Count > 0)
                         {
-                            errs += error + Environment.NewLine;
+                            string errs = "";
+                            foreach (string error in customerBo.ValidationErrors)
+                            {
+                                errs += error + Environment.NewLine;
+                            }
+                            MessageBox.Show(errs);
                         }
-                        MessageBox.Show(errs);
+                        else
+                        {
+                            MessageBox.Show("Error Occurred");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Error Occurred");
+                        LoadCustomerList();
+                        MessageBox.Show("Delete Complete");
                     }
+                    toolStripStatusLabel2.Text = "";
                 }
                 else
                 {
-                    LoadCustomerList();
-                    MessageBox.Show("Delete Complete");
+                    MessageBox.Show("Please choose a custoemr first");
                 }
-                toolStripStatusLabel2.Text = "";
-            }
-            else
-            {
-                MessageBox.Show("Please choose a custoemr first");
             }
         }
 
@@ -551,42 +570,48 @@ namespace Daigou
                 cbMerchandiseList.SelectedValue = pk;
                 MessageBox.Show("Save Complete");
             }
+            txtMerchandisePic.Text = "";
             toolStripStatusLabel3.Text = "";
         }
 
         private void btnDeleteMerchandise_Click(object sender, EventArgs e)
         {
-            if(cbMerchandiseList.SelectedValue != null && (int)cbCustomerList.SelectedValue > 0)
+            var confirmDelete = MessageBox.Show("Are you sure to delete this item?", "Confirm Delete!", MessageBoxButtons.YesNo);
+
+            if (confirmDelete == DialogResult.Yes)
             {
-                toolStripStatusLabel3.Text = "Deleting...";
-                MerchandiseBO merchandiseBo = new MerchandiseBO(_connString);
-                bool deleted = merchandiseBo.Delete((int)cbMerchandiseList.SelectedValue);
-                if (!deleted)
+                if (cbMerchandiseList.SelectedValue != null && (int)cbCustomerList.SelectedValue > 0)
                 {
-                    if (merchandiseBo.ValidationErrors.Count > 0)
+                    toolStripStatusLabel3.Text = "Deleting...";
+                    MerchandiseBO merchandiseBo = new MerchandiseBO(_connString);
+                    bool deleted = merchandiseBo.Delete((int)cbMerchandiseList.SelectedValue);
+                    if (!deleted)
                     {
-                        string errs = "";
-                        foreach (string error in merchandiseBo.ValidationErrors)
+                        if (merchandiseBo.ValidationErrors.Count > 0)
                         {
-                            errs += error + Environment.NewLine;
+                            string errs = "";
+                            foreach (string error in merchandiseBo.ValidationErrors)
+                            {
+                                errs += error + Environment.NewLine;
+                            }
+                            MessageBox.Show(errs);
                         }
-                        MessageBox.Show(errs);
+                        else
+                        {
+                            MessageBox.Show("Error Occurred");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Error Occurred");
+                        LoadMerchandiseList();
+                        MessageBox.Show("Delete Complete");
                     }
+                    toolStripStatusLabel3.Text = "";
                 }
                 else
                 {
-                    LoadMerchandiseList();
-                    MessageBox.Show("Delete Complete");
+                    MessageBox.Show("Please choose a merchandise first");
                 }
-                toolStripStatusLabel3.Text = "";
-            }
-            else
-            {
-                MessageBox.Show("Please choose a merchandise first");
             }
         }
 
@@ -648,22 +673,124 @@ namespace Daigou
             if (customerId > 0)
                 filter += " AND CustomerID=" + customerId;
             OrderBO bo = new OrderBO(_connString);
-            List<OrderSearchModel> result = bo.GetList(filter).Select(x=> new OrderSearchModel() { OrderName = x.OrderName, CustomerName = x.CustomerName, MerchandiseName = x.MerchandiseName, Number = x.Number, OrderDate = x.OrderDate, Profit = x.Profit, ShipmentDate = x.ShipmentDate }).ToList();
+            List<OrderSearchModel> result = bo.GetList(filter).Select(x=> new OrderSearchModel() { 编号 =x.OrderID.Value,  状态 = ((OrderStatus)x.OrderStatus).ToString(),  客户 = x.CustomerName,  商品 = x.MerchandiseName,  数量 = x.Number,  订货日期 = x.OrderDate,  利润 = x.Profit,  发货日期 = x.ShipmentDate, 买价 = x.PurchasePrice, 卖价 = x.ChargedPrice, 运费 = x.ShippingCost }).ToList();
             SortableBindingList<OrderSearchModel> resultSortable = new SortableBindingList<OrderSearchModel>(result);
             int totalCount = result.Count();
-            decimal totalProfit = 0;
+            decimal totalProfit = 0, totalIncome = 0, totalCost = 0, totalShipping = 0;
             foreach(OrderSearchModel order in result)
             {
-                totalProfit += order.Profit.HasValue ? order.Profit.Value : 0;
+                totalProfit += order.利润.HasValue ? order.利润.Value : 0;
+                totalCost += order.买价.HasValue ? order.买价.Value : 0;
+                totalIncome += order.卖价.HasValue ? order.卖价.Value : 0;
+                totalShipping += order.运费.HasValue ? order.运费.Value : 0;
             }
+            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+            chk.HeaderText = "打印";
+            chk.Name = "chkPrint";
+            dgSearch.Columns.Add(chk);
             dgSearch.DataSource = resultSortable;
             dgSearch.Refresh();
             lblTotalCount.Text = totalCount.ToString();
             lblTotalProfit.Text = totalProfit.ToString("f2");
+            lblTotalIncome.Text = totalIncome.ToString("f2");
+            lblTotalCost.Text = totalCost.ToString("f2");
+            lblTotalShipping.Text = totalShipping.ToString("f2");
             if (totalProfit > 0)
                 lblTotalProfit.ForeColor = Color.Green;
             else
                 lblTotalProfit.ForeColor = Color.Red;
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            List<int> orders = new List<int>();
+            foreach (DataGridViewRow row in dgSearch.Rows)
+            {
+                if (Convert.ToBoolean(row.Cells["chkPrint"].Value) == true)
+                {
+                    orders.Add((int)row.Cells["编号"].Value);
+                }
+            }
+            string location = System.Reflection.Assembly.GetExecutingAssembly().EscapedCodeBase;
+            string path = System.IO.Path.GetDirectoryName(location).Replace("file:\\", "").Replace("\\", "/");
+            if (path.Substring(path.Length - 3, 3).ToLowerInvariant() == "bin")
+            {
+                path = path.Substring(0, path.Length - 3);
+            }
+            if (path.Substring(path.Length - 1, 1) != "/")
+            {
+                path += "/";
+            }
+            ReportDocument report = new ReportDocument();
+            string rptFile = path + "order.rpt";
+            string pdfFile = path + Path.GetRandomFileName() + ".pdf";
+            report.Load(rptFile);
+            report.SetDataSource(FillReportData(orders));
+            report.ExportToDisk(ExportFormatType.PortableDocFormat, pdfFile);
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            process.StartInfo = startInfo;
+
+            startInfo.FileName = pdfFile;
+            process.Start();
+        }
+
+        private orderDataSet FillReportData(List<int> orderIds)
+        {
+            OrderBO bo = new OrderBO(_connString);
+            orderDataSet orderData = new orderDataSet();
+            string filter = "OrderID IN (";
+            foreach (int orderId in orderIds)
+            {
+                filter += orderId + ",";
+            }
+            filter = filter.Substring(0, filter.Length - 1) + ")";
+            List<OrderModel> orders = bo.GetList(filter);
+            List<CustomerModel> customers = new List<CustomerModel>();
+            List<MerchandiseModel> merchandises = new List<MerchandiseModel>();
+            foreach(OrderModel order in orders)
+            {
+                if(customers.Select(x=>x.CustomerId == order.CustomerID).Count() == 0)
+                {
+                    customers.Add(order.Customer);
+                }
+                if(merchandises.Select(x=>x.MerchandiseID == order.MerchandiseID).Count() == 0)
+                {
+                    merchandises.Add(order.Merchandise);
+                }
+                DataRow drOrder = orderData.Tables["Orders"].NewRow();
+                drOrder["OrderID"] = order.OrderID;
+                drOrder["CustomerID"] = order.CustomerID;
+                drOrder["MerchandiseID"] = order.MerchandiseID;
+                drOrder["Number"] = order.Number;
+                orderData.Tables["Orders"].Rows.Add(drOrder);
+            }
+            foreach(CustomerModel customer in customers)
+            {
+                DataRow drCustomer = orderData.Tables["Customer"].NewRow();
+                drCustomer["CustomerId"] = customer.CustomerId;
+                drCustomer["FirstName"] = customer.FirstName;
+                drCustomer["LastName"] = customer.LastName;
+                drCustomer["Address1"] = customer.Address1;
+                drCustomer["Address2"] = customer.Address2;
+                drCustomer["City"] = customer.City;
+                drCustomer["State"] = customer.State;
+                drCustomer["Country"] = customer.Country;
+                drCustomer["Zip"] = customer.Zip;
+                drCustomer["IdentificationNumber"] = customer.IdentificationNumber;
+                drCustomer["Phone"] = customer.Phone;
+                drCustomer["CustomerPicture"] = customer.CustomerPicture;
+                orderData.Tables["Customer"].Rows.Add(drCustomer);
+            }
+            foreach (MerchandiseModel merchandise in merchandises)
+            {
+                DataRow drMerchandise = orderData.Tables["Merchandise"].NewRow();
+                drMerchandise["MerchandiseID"] = merchandise.MerchandiseID;
+                drMerchandise["Name"] = merchandise.Name;
+                drMerchandise["Picture"] = merchandise.Picture;
+                orderData.Tables["Merchandise"].Rows.Add(drMerchandise);
+            }
+            return orderData;
         }
     }
 
