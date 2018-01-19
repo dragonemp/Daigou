@@ -723,7 +723,7 @@ namespace Daigou
             }
             ReportDocument report = new ReportDocument();
             string rptFile = path + "order.rpt";
-            string pdfFile = path + Path.GetRandomFileName() + ".pdf";
+            string pdfFile = path + "Temp/" + Path.GetRandomFileName() + ".pdf";
             report.Load(rptFile);
             report.SetDataSource(FillReportData(orders));
             report.Refresh();
